@@ -26,7 +26,7 @@ def _log(msg, kind="info"):
 def _load(p):
     if os.path.exists(p):
         try:
-            with open(p, "r", encoding="utf-8") as f:
+            with open(p, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
         except Exception:
             pass
@@ -182,7 +182,7 @@ def main():
     # 다음 프롬프트 자동 사용
     cfg["LAST_OUTPUT"] = final_path
     cfg["LAST_PROMPT"] = prompt
-    with open(GEN_CONFIG, "w", encoding="utf-8") as f:
+    with open(GEN_CONFIG, "w", encoding="utf-8-sig") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
 
 

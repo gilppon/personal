@@ -13,7 +13,7 @@ def main():
         print("??telegram_setup.json???놁뼱?? 癒쇱? ?숋툘 ?대┃?댁꽌 ?좏겙???낅젰?댁＜?몄슂.")
         sys.exit(1)
     try:
-        with open(CONFIG, "r", encoding="utf-8") as f:
+        with open(CONFIG, "r", encoding="utf-8-sig") as f:
             cfg = json.load(f)
     except Exception as e:
         print(f"???ㅼ젙 ?뚯씪 ?뚯떛 ?ㅽ뙣: {e}")

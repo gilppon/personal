@@ -18,7 +18,7 @@ REPORT_PATH = os.path.join(HERE, "trend_sniper_report.md")
 
 def load_config():
     try:
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+        with open(CONFIG_PATH, "r", encoding="utf-8-sig") as f:
             return json.load(f)
     except Exception as e:
         print(f"???ㅼ젙 ?뚯씪???쎌쓣 ???놁뼱?? {CONFIG_PATH}\n{e}")
@@ -27,7 +27,7 @@ def load_config():
 def load_account():
     try:
         if os.path.exists(ACCOUNT_PATH):
-            with open(ACCOUNT_PATH, "r", encoding="utf-8") as f:
+            with open(ACCOUNT_PATH, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
     except Exception:
         pass
@@ -172,7 +172,7 @@ def main():
     print(report)
     print("="*60)
 
-    with open(REPORT_PATH, "a", encoding="utf-8") as f:
+    with open(REPORT_PATH, "a", encoding="utf-8-sig") as f:
         now = time.strftime('%Y-%m-%d %H:%M:%S')
         f.write(f"\n\n# ?렞 ?몃젋???ㅻ굹?댄븨 蹂닿퀬????{now}\n")
         f.write(f"## ?뱻 ?ㅼ썙?? {', '.join(chosen)}\n\n")

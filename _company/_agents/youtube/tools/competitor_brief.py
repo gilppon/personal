@@ -14,7 +14,7 @@ CONFIG  = os.path.join(HERE, "competitor_brief.json")
 REPORT  = os.path.join(HERE, "competitor_brief_report.md")
 
 def _load(p):
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 def _resolve_channel_id(youtube, handle):
@@ -148,7 +148,7 @@ def main():
     print("\n" + "="*60)
     print(out)
     print("="*60)
-    with open(REPORT, "a", encoding="utf-8") as f:
+    with open(REPORT, "a", encoding="utf-8-sig") as f:
         f.write("\n\n" + out + "\n---\n")
     print(f"\n✅ 보고서: {REPORT}")
     _push_telegram(acct, out)

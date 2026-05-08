@@ -23,7 +23,7 @@ def _resolve_telegram():
     token, chat = "", ""
     if os.path.exists(SECRETARY_TOOL_JSON):
         try:
-            with open(SECRETARY_TOOL_JSON, "r", encoding="utf-8") as f:
+            with open(SECRETARY_TOOL_JSON, "r", encoding="utf-8-sig") as f:
                 cfg = json.load(f)
             token = (cfg.get("TELEGRAM_BOT_TOKEN") or "").strip()
             chat  = (cfg.get("TELEGRAM_CHAT_ID") or "").strip()
@@ -31,7 +31,7 @@ def _resolve_telegram():
             pass
     if (not token or not chat) and os.path.exists(SECRETARY_CFG):
         try:
-            with open(SECRETARY_CFG, "r", encoding="utf-8") as f:
+            with open(SECRETARY_CFG, "r", encoding="utf-8-sig") as f:
                 txt = f.read()
             if not token:
                 m = re.search(r"TELEGRAM_BOT_TOKEN\s*[:竊?]\s*([A-Za-z0-9:_\-]+)", txt)
@@ -43,7 +43,7 @@ def _resolve_telegram():
             pass
     if (not token or not chat) and os.path.exists(ACCOUNT):
         try:
-            with open(ACCOUNT, "r", encoding="utf-8") as f:
+            with open(ACCOUNT, "r", encoding="utf-8-sig") as f:
                 acct = json.load(f)
             if not token: token = (acct.get("TELEGRAM_BOT_TOKEN") or "").strip()
             if not chat:  chat  = (acct.get("TELEGRAM_CHAT_ID") or "").strip()

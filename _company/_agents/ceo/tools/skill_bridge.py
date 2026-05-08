@@ -6,7 +6,7 @@ CONFIG_PATH = os.path.join(HERE, "skill_bridge.json")
 
 def main():
     if os.path.exists(CONFIG_PATH):
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+        with open(CONFIG_PATH, "r", encoding="utf-8-sig") as f:
             cfg = json.load(f)
     else:
         cfg = {}

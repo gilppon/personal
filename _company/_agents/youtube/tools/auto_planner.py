@@ -9,7 +9,7 @@ SNIPER_PATH = os.path.join(HERE, "trend_sniper.py")
 
 def load_config():
     try:
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+        with open(CONFIG_PATH, "r", encoding="utf-8-sig") as f:
             return json.load(f)
     except Exception as e:
         print(f"❌ 설정 파일을 읽을 수 없어요: {CONFIG_PATH}\n{e}")

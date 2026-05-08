@@ -36,7 +36,7 @@ if __name__ == "__main__":
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, "analytics.json")
     
-    with open(output_file, "w", encoding="utf-8") as f:
+    with open(output_file, "w", encoding="utf-8-sig") as f:
         json.dump(analytics_data, f, indent=2)
         
     print(f"[Success] 트래픽 데이터가 {output_file} 에 저장되었습니다.")

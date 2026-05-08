@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Windows 콘솔 출력 시 이모지 깨짐 방지
 if sys.stdout.encoding.lower() != 'utf-8':
-    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding="utf-8-sig")
 
 try:
     import pandas as pd
@@ -26,9 +26,9 @@ def generate_pnl_report():
         print("[System] 데이터 파일이 부족합니다. revenue_pull.py 와 analytics_pull.py 를 먼저 실행하세요.")
         return None
         
-    with open(rev_file, "r", encoding="utf-8") as f:
+    with open(rev_file, "r", encoding="utf-8-sig") as f:
         rev_data = json.load(f)
-    with open(ana_file, "r", encoding="utf-8") as f:
+    with open(ana_file, "r", encoding="utf-8-sig") as f:
         ana_data = json.load(f)
         
     df_rev = pd.DataFrame(rev_data)
@@ -75,7 +75,7 @@ def save_and_approve(report_md):
     os.makedirs(approvals_dir, exist_ok=True)
     
     filename = os.path.join(approvals_dir, f"pnl_report_{timestamp}.md")
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filename, "w", encoding="utf-8-sig") as f:
         f.write(report_md)
         
     print(f"\n[System] 보고서 초안이 생성되었습니다: {filename}")

@@ -111,7 +111,7 @@ def _run(cmd, cwd=None):
 def _load_config():
     if os.path.exists(CONFIG_PATH):
         try:
-            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            with open(CONFIG_PATH, "r", encoding="utf-8-sig") as f:
                 return json.load(f)
         except Exception:
             pass
@@ -119,7 +119,7 @@ def _load_config():
 
 
 def _save_config(cfg):
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+    with open(CONFIG_PATH, "w", encoding="utf-8-sig") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
 
 

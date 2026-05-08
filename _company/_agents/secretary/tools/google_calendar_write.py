@@ -20,7 +20,7 @@ def main():
         print("   紐낅졊 ?붾젅??Cmd+Shift+P) ??'Connect AI: Google Calendar ?먮룞 ?쇱젙 ?곌껐' ?ㅽ뻾")
         sys.exit(1)
     try:
-        with open(CONFIG, "r", encoding="utf-8") as f:
+        with open(CONFIG, "r", encoding="utf-8-sig") as f:
             cfg = json.load(f)
     except Exception as e:
         print(f"???ㅼ젙 ?뚯씪 ?뚯떛 ?ㅽ뙣: {e}")

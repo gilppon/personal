@@ -13,7 +13,7 @@ ACCOUNT = os.path.join(HERE, "youtube_account.json")
 REPORT  = os.path.join(HERE, "channel_full_analysis_report.md")
 
 def _load(p):
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 def _resolve_channel_id(youtube, handle, channel_id):
@@ -54,7 +54,7 @@ def _resolve_telegram(account):
     sec_json = os.path.join(brain_root, "_agents", "secretary", "tools", "telegram_setup.json")
     if (not token or not chat) and os.path.exists(sec_json):
         try:
-            with open(sec_json, "r", encoding="utf-8") as f:
+            with open(sec_json, "r", encoding="utf-8-sig") as f:
                 cfg = _json.load(f)
             if not token: token = (cfg.get("TELEGRAM_BOT_TOKEN") or "").strip()
             if not chat:  chat  = (cfg.get("TELEGRAM_CHAT_ID") or "").strip()
@@ -294,7 +294,7 @@ def main():
         summary_lines.append(f"- {a}")
 
     summary = "\n".join(summary_lines)
-    with open(REPORT, "a", encoding="utf-8") as f:
+    with open(REPORT, "a", encoding="utf-8-sig") as f:
         f.write("\n\n" + summary + "\n\n---\n")
     print(f"??蹂닿퀬?? {REPORT}")
     _push_telegram(acct, summary)

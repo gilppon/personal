@@ -18,7 +18,7 @@ CONFIG  = os.path.join(HERE, "my_videos_check.json")
 REPORT  = os.path.join(HERE, "my_videos_check_report.md")
 
 def _load(p):
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 def _resolve_channel_id(youtube, handle, channel_id):
@@ -53,7 +53,7 @@ def _resolve_telegram(account):
     sec_json = os.path.join(brain_root, "_agents", "secretary", "tools", "telegram_setup.json")
     if (not token or not chat) and os.path.exists(sec_json):
         try:
-            with open(sec_json, "r", encoding="utf-8") as f:
+            with open(sec_json, "r", encoding="utf-8-sig") as f:
                 cfg = _json.load(f)
             if not token: token = (cfg.get("TELEGRAM_BOT_TOKEN") or "").strip()
             if not chat:  chat  = (cfg.get("TELEGRAM_CHAT_ID") or "").strip()
@@ -63,7 +63,7 @@ def _resolve_telegram(account):
     sec_cfg = os.path.join(brain_root, "_agents", "secretary", "config.md")
     if (not token or not chat) and os.path.exists(sec_cfg):
         try:
-            with open(sec_cfg, "r", encoding="utf-8") as f:
+            with open(sec_cfg, "r", encoding="utf-8-sig") as f:
                 txt = f.read()
             if not token:
                 m = re.search(r"TELEGRAM_BOT_TOKEN\s*[:竊?]\s*([A-Za-z0-9:_\-]+)", txt)
@@ -438,7 +438,7 @@ def main():
     summary = chr(10).join(L)
     # v2.89.49 ??stdout? 蹂닿퀬??markdown留? 硫뷀?쨌吏꾨떒 硫붿떆吏??stderr濡?
     print(summary)
-    with open(REPORT, "a", encoding="utf-8") as f:
+    with open(REPORT, "a", encoding="utf-8-sig") as f:
         f.write(chr(10) + chr(10) + summary + chr(10) + chr(10) + "---" + chr(10))
     print(f"\n??蹂닿퀬????? {REPORT}", file=sys.stderr)
     # Telegram (4096???쒗븳 ??plain text??留덊겕?ㅼ슫 ?뱀닔臾몄옄 洹몃?濡?蹂대궡???듦낵)

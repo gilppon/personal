@@ -16,7 +16,7 @@ MEMORY  = os.path.abspath(os.path.join(HERE, "..", "memory.md"))
 REPORT  = os.path.join(HERE, "comment_harvester_report.md")
 
 def _load(p):
-    with open(p, "r", encoding="utf-8") as f:
+    with open(p, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 def _resolve_channel_id(youtube, handle):
@@ -108,11 +108,11 @@ def main():
     # Append to memory so the agent uses these comments next think.
     os.makedirs(os.path.dirname(MEMORY), exist_ok=True)
     if not os.path.exists(MEMORY):
-        with open(MEMORY, "w", encoding="utf-8") as f:
+        with open(MEMORY, "w", encoding="utf-8-sig") as f:
             f.write("# YouTube ?먯씠?꾪듃 ??硫붾え由?n\n")
-    with open(MEMORY, "a", encoding="utf-8") as f:
+    with open(MEMORY, "a", encoding="utf-8-sig") as f:
         f.write("\n" + block + "\n")
-    with open(REPORT, "a", encoding="utf-8") as f:
+    with open(REPORT, "a", encoding="utf-8-sig") as f:
         f.write("\n" + block + "\n\n---\n")
     print(f"\n??硫붾え由ъ뿉 異붽?: {MEMORY}")
     print(f"??蹂닿퀬?? {REPORT}")
