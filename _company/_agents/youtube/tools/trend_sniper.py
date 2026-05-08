@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-"""Trend Sniper — pulls top YouTube videos for target keywords, asks a local
+﻿#!/usr/bin/env python
+"""Trend Sniper ??pulls top YouTube videos for target keywords, asks a local
 LLM (Ollama/LM Studio) to extract the algorithmic patterns, and writes a
 planning report next to this script.
 
@@ -21,7 +21,7 @@ def load_config():
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
-        print(f"❌ 설정 파일을 읽을 수 없어요: {CONFIG_PATH}\n{e}")
+        print(f"???ㅼ젙 ?뚯씪???쎌쓣 ???놁뼱?? {CONFIG_PATH}\n{e}")
         sys.exit(1)
 
 def load_account():
@@ -48,12 +48,12 @@ def main():
     acct = load_account()
     api_key = (_shared(cfg, acct, "YOUTUBE_API_KEY") or "").strip()
     if not api_key:
-        print("⚠️  YOUTUBE_API_KEY가 비어있어요. youtube_account.json 또는 trend_sniper.json에 입력하세요.")
-        print("   발급: https://console.cloud.google.com/ → YouTube Data API v3 사용 설정 → 사용자 인증 정보 → API 키")
+        print("?좑툘  YOUTUBE_API_KEY媛 鍮꾩뼱?덉뼱?? youtube_account.json ?먮뒗 trend_sniper.json???낅젰?섏꽭??")
+        print("   諛쒓툒: https://console.cloud.google.com/ ??YouTube Data API v3 ?ъ슜 ?ㅼ젙 ???ъ슜???몄쬆 ?뺣낫 ??API ??)
         sys.exit(1)
     target_keywords = cfg.get("TARGET_KEYWORDS", [])
     if not target_keywords:
-        print("⚠️  TARGET_KEYWORDS가 비어있어요. 분석할 키워드를 1개 이상 추가하세요.")
+        print("?좑툘  TARGET_KEYWORDS媛 鍮꾩뼱?덉뼱?? 遺꾩꽍???ㅼ썙?쒕? 1媛??댁긽 異붽??섏꽭??")
         sys.exit(1)
     ollama_url = (_shared(cfg, acct, "OLLAMA_URL", "http://127.0.0.1:11434") or "http://127.0.0.1:11434").rstrip("/")
     model = _shared(cfg, acct, "MODEL", "") or ""
@@ -63,21 +63,21 @@ def main():
     try:
         from googleapiclient.discovery import build
     except ImportError:
-        print("❌ google-api-python-client가 설치되지 않았어요.")
-        print("   설치: pip install google-api-python-client requests")
+        print("??google-api-python-client媛 ?ㅼ튂?섏? ?딆븯?댁슂.")
+        print("   ?ㅼ튂: pip install google-api-python-client requests")
         sys.exit(1)
     try:
         import requests
     except ImportError:
-        print("❌ requests가 설치되지 않았어요. pip install requests")
+        print("??requests媛 ?ㅼ튂?섏? ?딆븯?댁슂. pip install requests")
         sys.exit(1)
 
-    print(f"\n🎯 [트렌드 스나이퍼] 키워드 {chosen} 스캔 시작...")
+    print(f"\n?렞 [?몃젋???ㅻ굹?댄띁] ?ㅼ썙??{chosen} ?ㅼ틪 ?쒖옉...")
     youtube = build('youtube', 'v3', developerKey=api_key)
     last_month = (datetime.datetime.utcnow() - datetime.timedelta(days=30)).isoformat("T") + "Z"
     sniper_data = []
     for q in chosen:
-        print(f"📡 [{q}] 검색 중...")
+        print(f"?뱻 [{q}] 寃??以?..")
         try:
             req = youtube.search().list(
                 part="snippet", q=q, maxResults=5, order="viewCount",
@@ -87,36 +87,36 @@ def main():
             for item in res.get('items', []):
                 title = item['snippet']['title']
                 channel = item['snippet']['channelTitle']
-                sniper_data.append(f"[{q}] 채널: {channel} | 제목: {title}")
+                sniper_data.append(f"[{q}] 梨꾨꼸: {channel} | ?쒕ぉ: {title}")
         except Exception as e:
-            print(f"❌ 검색 오류 ({q}): {e}")
+            print(f"??寃???ㅻ쪟 ({q}): {e}")
 
     if not sniper_data:
-        print("❌ 수집된 데이터 없음. API 키 한도/네트워크 확인.")
+        print("???섏쭛???곗씠???놁쓬. API ???쒕룄/?ㅽ듃?뚰겕 ?뺤씤.")
         sys.exit(1)
 
     data_text = "\n".join(sniper_data)
-    prompt = f"""당신은 유튜브 알고리즘 마스터마인드입니다. 아래는 최근 30일 떡상 영상입니다.
+    prompt = f"""?뱀떊? ?좏뒠釉??뚭퀬由ъ쬁 留덉뒪?곕쭏?몃뱶?낅땲?? ?꾨옒??理쒓렐 30???≪긽 ?곸긽?낅땲??
 
-[키워드] {', '.join(chosen)}
-[데이터]
+[?ㅼ썙?? {', '.join(chosen)}
+[?곗씠??
 {data_text}
 
-분석해서 마크다운 보고서를 작성하세요. 반드시 3섹션:
-1. 🌍 트렌드 해킹 분석 — 어떤 패턴이 조회수를 끌고 있는지
-2. 🎯 빈집 털기 전략 — 차별화 가능한 틈새 주제
-3. 🎬 파괴적 영상 기획안 — 썸네일 카피, 제목 3개, 후킹 오프닝(첫 5초)
+遺꾩꽍?댁꽌 留덊겕?ㅼ슫 蹂닿퀬?쒕? ?묒꽦?섏꽭?? 諛섎뱶??3?뱀뀡:
+1. ?뙇 ?몃젋???댄궧 遺꾩꽍 ???대뼡 ?⑦꽩??議고쉶?섎? ?뚭퀬 ?덈뒗吏
+2. ?렞 鍮덉쭛 ?멸린 ?꾨왂 ??李⑤퀎??媛?ν븳 ?덉깉 二쇱젣
+3. ?렗 ?뚭눼???곸긽 湲고쉷?????몃꽕??移댄뵾, ?쒕ぉ 3媛? ?꾪궧 ?ㅽ봽??泥?5珥?
 """
 
-    # v2.89.70 — LM Studio (OpenAI 호환 API) + Ollama 둘 다 지원. URL/포트로 자동 감지.
+    # v2.89.70 ??LM Studio (OpenAI ?명솚 API) + Ollama ????吏?? URL/?ы듃濡??먮룞 媛먯?.
     is_lm_studio = ('1234' in ollama_url) or ('/v1' in ollama_url)
-    print(f"🧠 [LLM 분석 중... 엔진: {'LM Studio' if is_lm_studio else 'Ollama'}]")
+    print(f"?쭬 [LLM 遺꾩꽍 以?.. ?붿쭊: {'LM Studio' if is_lm_studio else 'Ollama'}]")
 
-    # 모델 자동 선택 — 엔진별로 다른 endpoint
+    # 紐⑤뜽 ?먮룞 ?좏깮 ???붿쭊蹂꾨줈 ?ㅻⅨ endpoint
     if not model:
         try:
             if is_lm_studio:
-                # LM Studio: GET /v1/models (OpenAI 호환)
+                # LM Studio: GET /v1/models (OpenAI ?명솚)
                 base = ollama_url.rstrip('/')
                 if not base.endswith('/v1'):
                     base = base + '/v1'
@@ -129,16 +129,16 @@ def main():
                 r.raise_for_status()
                 models = [m["name"] for m in r.json().get("models", [])]
             if not models:
-                print(f"❌ 로컬 LLM에 설치된 모델이 없어요. {'LM Studio' if is_lm_studio else 'Ollama'} 에서 모델 로드/풀하세요.")
+                print(f"??濡쒖뺄 LLM???ㅼ튂??紐⑤뜽???놁뼱?? {'LM Studio' if is_lm_studio else 'Ollama'} ?먯꽌 紐⑤뜽 濡쒕뱶/??섏꽭??")
                 sys.exit(1)
             model = models[0]
-            print(f"   자동 선택 모델: {model}")
+            print(f"   ?먮룞 ?좏깮 紐⑤뜽: {model}")
         except Exception as e:
-            print(f"❌ 로컬 LLM 연결 실패 ({ollama_url}): {e}")
-            print(f"   엔진 실행 확인: {'LM Studio (포트 1234)' if is_lm_studio else 'Ollama (포트 11434)'}")
+            print(f"??濡쒖뺄 LLM ?곌껐 ?ㅽ뙣 ({ollama_url}): {e}")
+            print(f"   ?붿쭊 ?ㅽ뻾 ?뺤씤: {'LM Studio (?ы듃 1234)' if is_lm_studio else 'Ollama (?ы듃 11434)'}")
             sys.exit(1)
 
-    # 추론 호출 — 엔진별 다른 endpoint·payload 형식
+    # 異붾줎 ?몄텧 ???붿쭊蹂??ㅻⅨ endpoint쨌payload ?뺤떇
     try:
         if is_lm_studio:
             base = ollama_url.rstrip('/')
@@ -165,7 +165,7 @@ def main():
             r.raise_for_status()
             report = r.json().get("response", "").strip()
     except Exception as e:
-        print(f"❌ LLM 호출 실패: {e}")
+        print(f"??LLM ?몄텧 ?ㅽ뙣: {e}")
         sys.exit(1)
 
     print("\n" + "="*60)
@@ -174,11 +174,11 @@ def main():
 
     with open(REPORT_PATH, "a", encoding="utf-8") as f:
         now = time.strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"\n\n# 🎯 트렌드 스나이핑 보고서 — {now}\n")
-        f.write(f"## 📡 키워드: {', '.join(chosen)}\n\n")
+        f.write(f"\n\n# ?렞 ?몃젋???ㅻ굹?댄븨 蹂닿퀬????{now}\n")
+        f.write(f"## ?뱻 ?ㅼ썙?? {', '.join(chosen)}\n\n")
         f.write(report)
         f.write("\n\n---\n")
-    print(f"\n✅ 보고서 저장: {REPORT_PATH}")
+    print(f"\n??蹂닿퀬????? {REPORT_PATH}")
 
 if __name__ == "__main__":
     main()

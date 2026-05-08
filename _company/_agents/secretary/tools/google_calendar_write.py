@@ -1,13 +1,13 @@
-#!/usr/bin/env python3
-"""Google Calendar 자동 일정 등록 — secretary_calendar_write_v1.
+﻿#!/usr/bin/env python
+"""Google Calendar ?먮룞 ?쇱젙 ?깅줉 ??secretary_calendar_write_v1.
 
-이 스크립트는 OAuth와 실제 이벤트 생성을 직접 하지 않습니다 — VS Code
-호스트(extension.ts)에서 직접 처리해요. 이 도구의 역할은:
-  1) 설정 상태를 확인해서 사용자에게 알려주기 (▶ 클릭 시)
-  2) ⚙️ 폼에서 CALENDAR_ID / DEFAULT_DURATION_MINUTES 같은 보조 설정 노출
+???ㅽ겕由쏀듃??OAuth? ?ㅼ젣 ?대깽???앹꽦??吏곸젒 ?섏? ?딆뒿?덈떎 ??VS Code
+?몄뒪??extension.ts)?먯꽌 吏곸젒 泥섎━?댁슂. ???꾧뎄????븷?:
+  1) ?ㅼ젙 ?곹깭瑜??뺤씤?댁꽌 ?ъ슜?먯뿉寃??뚮젮二쇨린 (???대┃ ??
+  2) ?숋툘 ?쇱뿉??CALENDAR_ID / DEFAULT_DURATION_MINUTES 媛숈? 蹂댁“ ?ㅼ젙 ?몄텧
 
-연결 자체는 명령 팔레트에서:
-  Cmd+Shift+P → 'Connect AI: Google Calendar 자동 일정 연결 📅'
+?곌껐 ?먯껜??紐낅졊 ?붾젅?몄뿉??
+  Cmd+Shift+P ??'Connect AI: Google Calendar ?먮룞 ?쇱젙 ?곌껐 ?뱟'
 """
 import os, json, sys
 
@@ -16,14 +16,14 @@ CONFIG = os.path.join(HERE, "google_calendar_write.json")
 
 def main():
     if not os.path.exists(CONFIG):
-        print("⚠️ 아직 설정이 없어요.")
-        print("   명령 팔레트(Cmd+Shift+P) → 'Connect AI: Google Calendar 자동 일정 연결' 실행")
+        print("?좑툘 ?꾩쭅 ?ㅼ젙???놁뼱??")
+        print("   紐낅졊 ?붾젅??Cmd+Shift+P) ??'Connect AI: Google Calendar ?먮룞 ?쇱젙 ?곌껐' ?ㅽ뻾")
         sys.exit(1)
     try:
         with open(CONFIG, "r", encoding="utf-8") as f:
             cfg = json.load(f)
     except Exception as e:
-        print(f"❌ 설정 파일 파싱 실패: {e}")
+        print(f"???ㅼ젙 ?뚯씪 ?뚯떛 ?ㅽ뙣: {e}")
         sys.exit(1)
     cid = (cfg.get("CLIENT_ID") or "").strip()
     cs  = (cfg.get("CLIENT_SECRET") or "").strip()
@@ -32,23 +32,23 @@ def main():
     dur = int(cfg.get("DEFAULT_DURATION_MINUTES") or 60)
     who = (cfg.get("_CONNECTED_AS") or "").strip()
     when = (cfg.get("_CONNECTED_AT") or "").strip()
-    print("─── Google Calendar 자동 일정 등록 상태 ───")
-    print(f"  Client ID         : {'설정됨 (' + cid[:8] + '…)' if cid else '(없음)'}")
-    print(f"  Client Secret     : {'설정됨' if cs else '(없음)'}")
-    print(f"  Refresh Token     : {'유효 ✓' if rt else '(없음)'}")
+    print("??? Google Calendar ?먮룞 ?쇱젙 ?깅줉 ?곹깭 ???")
+    print(f"  Client ID         : {'?ㅼ젙??(' + cid[:8] + '??' if cid else '(?놁쓬)'}")
+    print(f"  Client Secret     : {'?ㅼ젙?? if cs else '(?놁쓬)'}")
+    print(f"  Refresh Token     : {'?좏슚 ?? if rt else '(?놁쓬)'}")
     print(f"  Calendar ID       : {cal}")
-    print(f"  기본 일정 길이     : {dur}분")
+    print(f"  湲곕낯 ?쇱젙 湲몄씠     : {dur}遺?)
     if who:
-        print(f"  연결 계정          : {who}")
+        print(f"  ?곌껐 怨꾩젙          : {who}")
     if when:
-        print(f"  연결 시각          : {when[:19]}")
+        print(f"  ?곌껐 ?쒓컖          : {when[:19]}")
     if not (cid and cs and rt):
         print()
-        print("⚠️ 셋업이 완료되지 않았어요.")
-        print("   명령 팔레트(Cmd+Shift+P) → 'Connect AI: Google Calendar 자동 일정 연결'")
+        print("?좑툘 ?뗭뾽???꾨즺?섏? ?딆븯?댁슂.")
+        print("   紐낅졊 ?붾젅??Cmd+Shift+P) ??'Connect AI: Google Calendar ?먮룞 ?쇱젙 ?곌껐'")
         sys.exit(1)
     print()
-    print("✅ 연결 정상. 마감일(due) 있는 추적 작업이 등록되면 자동으로 캘린더에 일정이 생성됩니다.")
+    print("???곌껐 ?뺤긽. 留덇컧??due) ?덈뒗 異붿쟻 ?묒뾽???깅줉?섎㈃ ?먮룞?쇰줈 罹섎┛?붿뿉 ?쇱젙???앹꽦?⑸땲??")
 
 if __name__ == "__main__":
     main()

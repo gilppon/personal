@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-"""Channel Full Analysis — comprehensive overview of your YouTube channel.
+﻿#!/usr/bin/env python
+"""Channel Full Analysis ??comprehensive overview of your YouTube channel.
 
 Input: just YOUTUBE_API_KEY + MY_CHANNEL_ID/HANDLE from youtube_account.json.
 No additional config needed. Output: full report with stats, patterns, and
@@ -28,11 +28,11 @@ def _resolve_channel_id(youtube, handle, channel_id):
         if items:
             return items[0]["snippet"]["channelId"]
     except Exception as e:
-        print(f"⚠️  채널 ID 조회 실패: {e}")
+        print(f"?좑툘  梨꾨꼸 ID 議고쉶 ?ㅽ뙣: {e}")
     return None
 
 def _parse_iso_duration(d):
-    """ISO 8601 duration (PT4M30S) → seconds."""
+    """ISO 8601 duration (PT4M30S) ??seconds."""
     m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", d or "")
     if not m: return 0
     h, mi, s = m.groups()
@@ -73,70 +73,70 @@ def _push_telegram(account, text):
             json={"chat_id": chat, "text": text, "parse_mode": "Markdown"},
             timeout=10,
         )
-        print("📨 텔레그램으로 보고 전송")
+        print("?벂 ?붾젅洹몃옩?쇰줈 蹂닿퀬 ?꾩넚")
     except Exception as e:
-        print(f"⚠️  텔레그램 전송 실패: {e}")
+        print(f"?좑툘  ?붾젅洹몃옩 ?꾩넚 ?ㅽ뙣: {e}")
 
 def main():
     if not os.path.exists(ACCOUNT):
-        print("❌ youtube_account.json이 없어요. 외부 연결 패널에서 YouTube API 키와 채널 ID 입력해주세요.")
+        print("??youtube_account.json???놁뼱?? ?몃? ?곌껐 ?⑤꼸?먯꽌 YouTube API ?ㅼ? 梨꾨꼸 ID ?낅젰?댁＜?몄슂.")
         sys.exit(1)
     acct = _load(ACCOUNT)
     api_key = (acct.get("YOUTUBE_API_KEY") or "").strip()
     handle  = (acct.get("MY_CHANNEL_HANDLE") or "").strip()
     chan_id = (acct.get("MY_CHANNEL_ID") or "").strip()
     if not api_key:
-        print("❌ YOUTUBE_API_KEY가 비어있어요. 외부 연결 패널 → YouTube Data API 카드에 입력해주세요.")
+        print("??YOUTUBE_API_KEY媛 鍮꾩뼱?덉뼱?? ?몃? ?곌껐 ?⑤꼸 ??YouTube Data API 移대뱶???낅젰?댁＜?몄슂.")
         sys.exit(1)
     if not (handle or chan_id):
-        print("❌ MY_CHANNEL_HANDLE 또는 MY_CHANNEL_ID 필요. 외부 연결 패널 → 채널 ID 입력해주세요.")
+        print("??MY_CHANNEL_HANDLE ?먮뒗 MY_CHANNEL_ID ?꾩슂. ?몃? ?곌껐 ?⑤꼸 ??梨꾨꼸 ID ?낅젰?댁＜?몄슂.")
         sys.exit(1)
 
     try:
         from googleapiclient.discovery import build
     except ImportError:
-        print("❌ google-api-python-client 미설치.")
-        print("   터미널에서 한 줄: pip3 install google-api-python-client requests")
+        print("??google-api-python-client 誘몄꽕移?")
+        print("   ?곕??먯뿉????以? pip3 install google-api-python-client requests")
         sys.exit(1)
     youtube = build("youtube", "v3", developerKey=api_key)
 
     cid = _resolve_channel_id(youtube, handle, chan_id)
     if not cid:
-        print("❌ 채널 ID를 찾지 못했어요. 외부 연결 패널의 채널 ID 확인.")
+        print("??梨꾨꼸 ID瑜?李얠? 紐삵뻽?댁슂. ?몃? ?곌껐 ?⑤꼸??梨꾨꼸 ID ?뺤씤.")
         sys.exit(1)
 
-    print(f"📈 [채널 완전 분석] 채널 {handle or cid} 분석 중...")
+    print(f"?뱢 [梨꾨꼸 ?꾩쟾 遺꾩꽍] 梨꾨꼸 {handle or cid} 遺꾩꽍 以?..")
     print()
 
-    # 1. 채널 메타
+    # 1. 梨꾨꼸 硫뷀?
     ch = youtube.channels().list(part="snippet,statistics,brandingSettings", id=cid).execute()
     if not ch.get("items"):
-        print("❌ 채널 데이터를 가져오지 못했어요. API 키·할당량 확인.")
+        print("??梨꾨꼸 ?곗씠?곕? 媛?몄삤吏 紐삵뻽?댁슂. API ?ㅒ룻븷?밸웾 ?뺤씤.")
         sys.exit(1)
     c = ch["items"][0]
     sn = c.get("snippet", {})
     st = c.get("statistics", {})
-    title = sn.get("title", "(이름 없음)")
+    title = sn.get("title", "(?대쫫 ?놁쓬)")
     subs = int(st.get("subscriberCount", 0))
     total_views = int(st.get("viewCount", 0))
     video_count = int(st.get("videoCount", 0))
     pub_at = sn.get("publishedAt", "")[:10]
 
-    print("─── 1. 채널 개요 ───")
-    print(f"  채널: {title}")
-    print(f"  핸들: {sn.get('customUrl', handle or '(없음)')}")
-    print(f"  구독자: {subs:,}명")
-    print(f"  총 조회수: {total_views:,}회")
-    print(f"  업로드 영상: {video_count}개")
-    print(f"  채널 가입: {pub_at}")
+    print("??? 1. 梨꾨꼸 媛쒖슂 ???")
+    print(f"  梨꾨꼸: {title}")
+    print(f"  ?몃뱾: {sn.get('customUrl', handle or '(?놁쓬)')}")
+    print(f"  援щ룆?? {subs:,}紐?)
+    print(f"  珥?議고쉶?? {total_views:,}??)
+    print(f"  ?낅줈???곸긽: {video_count}媛?)
+    print(f"  梨꾨꼸 媛?? {pub_at}")
     avg_per_video = total_views // max(1, video_count)
-    print(f"  영상당 평균 조회: {avg_per_video:,}회")
+    print(f"  ?곸긽???됯퇏 議고쉶: {avg_per_video:,}??)
     print()
 
-    # 2. 최근 30일 영상 분석 (uploads playlist 사용 — search보다 quota 절약)
+    # 2. 理쒓렐 30???곸긽 遺꾩꽍 (uploads playlist ?ъ슜 ??search蹂대떎 quota ?덉빟)
     uploads = c.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads") if "contentDetails" in c else None
     if not uploads:
-        # contentDetails 없으면 search로 폴백
+        # contentDetails ?놁쑝硫?search濡??대갚
         cd = youtube.channels().list(part="contentDetails", id=cid).execute()
         if cd.get("items"):
             uploads = cd["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
@@ -161,10 +161,10 @@ def main():
                 break
 
     if not recent_video_ids:
-        print("⚠️  최근 30일 동안 업로드한 영상이 없어요. 영상 업로드 후 다시 분석해주세요.")
+        print("?좑툘  理쒓렐 30???숈븞 ?낅줈?쒗븳 ?곸긽???놁뼱?? ?곸긽 ?낅줈?????ㅼ떆 遺꾩꽍?댁＜?몄슂.")
         sys.exit(0)
 
-    # 3. 영상별 통계 (50개씩 나눠서)
+    # 3. ?곸긽蹂??듦퀎 (50媛쒖뵫 ?섎닠??
     all_vids = []
     for i in range(0, len(recent_video_ids), 50):
         chunk = recent_video_ids[i:i+50]
@@ -195,109 +195,108 @@ def main():
     median_views = statistics.median(views_list) if views_list else 0
     mean_views = statistics.mean(views_list) if views_list else 0
 
-    print("─── 2. 최근 30일 업로드 패턴 ───")
-    print(f"  업로드 횟수: {len(all_vids)}개 (월평균 {len(all_vids):.1f}개)")
+    print("??? 2. 理쒓렐 30???낅줈???⑦꽩 ???")
+    print(f"  ?낅줈???잛닔: {len(all_vids)}媛?(?뷀룊洹?{len(all_vids):.1f}媛?")
     weekday_counts = Counter(v["pub_dt"].strftime("%A") for v in all_vids)
-    weekday_kr = {"Monday":"월","Tuesday":"화","Wednesday":"수","Thursday":"목","Friday":"금","Saturday":"토","Sunday":"일"}
+    weekday_kr = {"Monday":"??,"Tuesday":"??,"Wednesday":"??,"Thursday":"紐?,"Friday":"湲?,"Saturday":"??,"Sunday":"??}
     top_day = weekday_counts.most_common(1)
     if top_day:
-        print(f"  주로 업로드한 요일: {weekday_kr.get(top_day[0][0], top_day[0][0])}요일 ({top_day[0][1]}회)")
+        print(f"  二쇰줈 ?낅줈?쒗븳 ?붿씪: {weekday_kr.get(top_day[0][0], top_day[0][0])}?붿씪 ({top_day[0][1]}??")
     avg_duration = sum(v["duration_sec"] for v in all_vids) / len(all_vids)
-    print(f"  평균 영상 길이: {_fmt_duration(int(avg_duration))}")
+    print(f"  ?됯퇏 ?곸긽 湲몄씠: {_fmt_duration(int(avg_duration))}")
     print()
 
-    print("─── 3. 성과 통계 ───")
-    print(f"  중간값 조회수: {int(median_views):,}회")
-    print(f"  평균 조회수: {int(mean_views):,}회")
+    print("??? 3. ?깃낵 ?듦퀎 ???")
+    print(f"  以묎컙媛?議고쉶?? {int(median_views):,}??)
+    print(f"  ?됯퇏 議고쉶?? {int(mean_views):,}??)
     avg_eng = sum(v["engagement_rate"] for v in all_vids) / len(all_vids) * 100 if all_vids else 0
-    print(f"  평균 참여율 (좋아요+댓글)/조회: {avg_eng:.2f}%")
+    print(f"  ?됯퇏 李몄뿬??(醫뗭븘???볤?)/議고쉶: {avg_eng:.2f}%")
     print()
 
-    # 떡상 / 부진 분류
+    # ?≪긽 / 遺吏?遺꾨쪟
     hot = [v for v in all_vids if v["views"] >= median_views * 1.5]
     cold = [v for v in all_vids if v["views"] < median_views * 0.5]
 
-    print("─── 4. 🔥 떡상 영상 (중간값 × 1.5 이상) ───")
+    print("??? 4. ?뵦 ?≪긽 ?곸긽 (以묎컙媛?횞 1.5 ?댁긽) ???")
     if not hot:
-        print("  (없음 — 모든 영상이 평균 근처)")
+        print("  (?놁쓬 ??紐⑤뱺 ?곸긽???됯퇏 洹쇱쿂)")
     else:
         for v in hot[:5]:
-            print(f"  🔥 {v['views']:>8,}회 · 참여 {v['engagement_rate']*100:.2f}% · {_fmt_duration(v['duration_sec'])} · {v['title'][:50]}")
+            print(f"  ?뵦 {v['views']:>8,}??쨌 李몄뿬 {v['engagement_rate']*100:.2f}% 쨌 {_fmt_duration(v['duration_sec'])} 쨌 {v['title'][:50]}")
     print()
 
-    print("─── 5. 🥶 부진 영상 (중간값 × 0.5 미만) ───")
+    print("??? 5. ?Ⅶ 遺吏??곸긽 (以묎컙媛?횞 0.5 誘몃쭔) ???")
     if not cold:
-        print("  (없음 — 모든 영상이 평균 근처)")
+        print("  (?놁쓬 ??紐⑤뱺 ?곸긽???됯퇏 洹쇱쿂)")
     else:
         for v in cold[:5]:
-            print(f"  🥶 {v['views']:>8,}회 · 참여 {v['engagement_rate']*100:.2f}% · {_fmt_duration(v['duration_sec'])} · {v['title'][:50]}")
+            print(f"  ?Ⅶ {v['views']:>8,}??쨌 李몄뿬 {v['engagement_rate']*100:.2f}% 쨌 {_fmt_duration(v['duration_sec'])} 쨌 {v['title'][:50]}")
     print()
 
-    # 6. 패턴 비교 — 떡상 vs 부진의 차이
-    print("─── 6. 떡상 vs 부진 — 패턴 비교 ───")
+    # 6. ?⑦꽩 鍮꾧탳 ???≪긽 vs 遺吏꾩쓽 李⑥씠
+    print("??? 6. ?≪긽 vs 遺吏????⑦꽩 鍮꾧탳 ???")
     if hot and cold:
         hot_avg_dur = sum(v["duration_sec"] for v in hot) / len(hot)
         cold_avg_dur = sum(v["duration_sec"] for v in cold) / len(cold)
         hot_avg_title = sum(len(v["title"]) for v in hot) / len(hot)
         cold_avg_title = sum(len(v["title"]) for v in cold) / len(cold)
-        print(f"  떡상 영상 평균 길이: {_fmt_duration(int(hot_avg_dur))}")
-        print(f"  부진 영상 평균 길이: {_fmt_duration(int(cold_avg_dur))}")
+        print(f"  ?≪긽 ?곸긽 ?됯퇏 湲몄씠: {_fmt_duration(int(hot_avg_dur))}")
+        print(f"  遺吏??곸긽 ?됯퇏 湲몄씠: {_fmt_duration(int(cold_avg_dur))}")
         if abs(hot_avg_dur - cold_avg_dur) > 60:
-            longer = "떡상" if hot_avg_dur > cold_avg_dur else "부진"
-            print(f"  → {longer} 영상이 평균 {abs(int(hot_avg_dur - cold_avg_dur))}초 더 길어요")
-        print(f"  떡상 영상 평균 제목 길이: {hot_avg_title:.0f}자")
-        print(f"  부진 영상 평균 제목 길이: {cold_avg_title:.0f}자")
+            longer = "?≪긽" if hot_avg_dur > cold_avg_dur else "遺吏?
+            print(f"  ??{longer} ?곸긽???됯퇏 {abs(int(hot_avg_dur - cold_avg_dur))}珥???湲몄뼱??)
+        print(f"  ?≪긽 ?곸긽 ?됯퇏 ?쒕ぉ 湲몄씠: {hot_avg_title:.0f}??)
+        print(f"  遺吏??곸긽 ?됯퇏 ?쒕ぉ 湲몄씠: {cold_avg_title:.0f}??)
     else:
-        print("  (떡상 또는 부진 데이터 부족 — 영상이 더 쌓이면 다시 분석)")
+        print("  (?≪긽 ?먮뒗 遺吏??곗씠??遺議????곸긽?????볦씠硫??ㅼ떆 遺꾩꽍)")
     print()
 
-    # 7. 자동 추천 (LLM 없이 데이터만으로)
-    print("─── 7. 🧭 다음 액션 추천 (데이터 기반) ───")
+    # 7. ?먮룞 異붿쿇 (LLM ?놁씠 ?곗씠?곕쭔?쇰줈)
+    print("??? 7. ?㎛ ?ㅼ쓬 ?≪뀡 異붿쿇 (?곗씠??湲곕컲) ???")
     actions = []
     if hot:
-        actions.append(f"🔥 떡상한 {len(hot)}개 영상의 제목·후크 패턴을 다음 영상에 적용 — 가장 잘 된 후크는 \"{hot[0]['title'][:50]}\"")
+        actions.append(f"?뵦 ?≪긽??{len(hot)}媛??곸긽???쒕ぉ쨌?꾪겕 ?⑦꽩???ㅼ쓬 ?곸긽???곸슜 ??媛???????꾪겕??\"{hot[0]['title'][:50]}\"")
     if cold:
-        actions.append(f"🥶 부진한 {len(cold)}개는 썸네일 A/B 테스트 또는 제목 리네이밍 후보")
+        actions.append(f"?Ⅶ 遺吏꾪븳 {len(cold)}媛쒕뒗 ?몃꽕??A/B ?뚯뒪???먮뒗 ?쒕ぉ 由щ꽕?대컢 ?꾨낫")
     if avg_eng < 2.0:
-        actions.append(f"💗 평균 참여율 {avg_eng:.2f}% — 영상 끝에 명확한 CTA(좋아요·구독) 추가 추천 (보통 3% 이상이 건강함)")
+        actions.append(f"?뮉 ?됯퇏 李몄뿬??{avg_eng:.2f}% ???곸긽 ?앹뿉 紐낇솗??CTA(醫뗭븘?붋룰뎄?? 異붽? 異붿쿇 (蹂댄넻 3% ?댁긽??嫄닿컯??")
     elif avg_eng > 5.0:
-        actions.append(f"💗 참여율 {avg_eng:.2f}% — 매우 좋음. 시청자와 강한 연결 구축됨, 상품·멤버십 도입 고려 시점")
+        actions.append(f"?뮉 李몄뿬??{avg_eng:.2f}% ??留ㅼ슦 醫뗭쓬. ?쒖껌?먯? 媛뺥븳 ?곌껐 援ъ텞?? ?곹뭹쨌硫ㅻ쾭???꾩엯 怨좊젮 ?쒖젏")
     if len(all_vids) < 4:
-        actions.append("📅 월 4개 미만 업로드 — 알고리즘 노출 위해 최소 주 1회 권장")
+        actions.append("?뱟 ??4媛?誘몃쭔 ?낅줈?????뚭퀬由ъ쬁 ?몄텧 ?꾪빐 理쒖냼 二?1??沅뚯옣")
     elif len(all_vids) > 12:
-        actions.append("📅 월 12개 이상 업로드 — 양은 충분, 영상별 품질·후크에 집중 추천")
+        actions.append("?뱟 ??12媛??댁긽 ?낅줈?????묒? 異⑸텇, ?곸긽蹂??덉쭏쨌?꾪겕??吏묒쨷 異붿쿇")
     if not actions:
-        actions.append("✅ 채널 상태 안정적 — 현재 패턴 유지하며 시청자 댓글에서 다음 콘텐츠 아이디어 수집")
+        actions.append("??梨꾨꼸 ?곹깭 ?덉젙?????꾩옱 ?⑦꽩 ?좎??섎ŉ ?쒖껌???볤??먯꽌 ?ㅼ쓬 肄섑뀗痢??꾩씠?붿뼱 ?섏쭛")
     for a in actions:
-        print(f"  • {a}")
+        print(f"  ??{a}")
     print()
 
-    # 8. 보고서 .md 저장
-    summary_lines = [
-        f"# 📈 채널 완전 분석 — {time.strftime('%Y-%m-%d %H:%M')}",
-        f"채널: **{title}** · 구독자 **{subs:,}** · 영상 **{video_count}**개",
+    # 8. 蹂닿퀬??.md ???    summary_lines = [
+        f"# ?뱢 梨꾨꼸 ?꾩쟾 遺꾩꽍 ??{time.strftime('%Y-%m-%d %H:%M')}",
+        f"梨꾨꼸: **{title}** 쨌 援щ룆??**{subs:,}** 쨌 ?곸긽 **{video_count}**媛?,
         "",
-        "## 최근 30일 통계",
-        f"- 업로드: {len(all_vids)}개",
-        f"- 조회수 중간값: **{int(median_views):,}**",
-        f"- 평균 참여율: **{avg_eng:.2f}%**",
-        f"- 평균 영상 길이: **{_fmt_duration(int(avg_duration))}**",
+        "## 理쒓렐 30???듦퀎",
+        f"- ?낅줈?? {len(all_vids)}媛?,
+        f"- 議고쉶??以묎컙媛? **{int(median_views):,}**",
+        f"- ?됯퇏 李몄뿬?? **{avg_eng:.2f}%**",
+        f"- ?됯퇏 ?곸긽 湲몄씠: **{_fmt_duration(int(avg_duration))}**",
         "",
-        f"## 🔥 떡상 영상 ({len(hot)}개)",
+        f"## ?뵦 ?≪긽 ?곸긽 ({len(hot)}媛?",
     ]
     for v in hot[:5]:
-        summary_lines.append(f"- {v['views']:,}회 · {v['title']}")
-    summary_lines.append(f"\n## 🥶 부진 영상 ({len(cold)}개)")
+        summary_lines.append(f"- {v['views']:,}??쨌 {v['title']}")
+    summary_lines.append(f"\n## ?Ⅶ 遺吏??곸긽 ({len(cold)}媛?")
     for v in cold[:5]:
-        summary_lines.append(f"- {v['views']:,}회 · {v['title']}")
-    summary_lines.append("\n## 🧭 다음 액션 (자동 추천)")
+        summary_lines.append(f"- {v['views']:,}??쨌 {v['title']}")
+    summary_lines.append("\n## ?㎛ ?ㅼ쓬 ?≪뀡 (?먮룞 異붿쿇)")
     for a in actions:
         summary_lines.append(f"- {a}")
 
     summary = "\n".join(summary_lines)
     with open(REPORT, "a", encoding="utf-8") as f:
         f.write("\n\n" + summary + "\n\n---\n")
-    print(f"✅ 보고서: {REPORT}")
+    print(f"??蹂닿퀬?? {REPORT}")
     _push_telegram(acct, summary)
 
 if __name__ == "__main__":

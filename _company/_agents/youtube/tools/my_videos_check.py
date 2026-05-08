@@ -1,15 +1,15 @@
-#!/usr/bin/env python3
-"""Professional YouTube Channel Analysis — pro_v4.
+﻿#!/usr/bin/env python
+"""Professional YouTube Channel Analysis ??pro_v4.
 
-채널 메타 · 영상별 상세 (조회수·좋아요율·댓글율·길이·요일) · 상위/하위 영상의 패턴 ·
-인기 댓글 샘플 · 발행 요일 분석 · 제목 키워드 · 우선순위 액션 추천. 모든 분석은
-실제 YouTube Data API 호출 결과 기반.
+梨꾨꼸 硫뷀? 쨌 ?곸긽蹂??곸꽭 (議고쉶?샕룹쥕?꾩슂?㉱룸뙎湲?㉱룰만?는룹슂?? 쨌 ?곸쐞/?섏쐞 ?곸긽???⑦꽩 쨌
+?멸린 ?볤? ?섑뵆 쨌 諛쒗뻾 ?붿씪 遺꾩꽍 쨌 ?쒕ぉ ?ㅼ썙??쨌 ?곗꽑?쒖쐞 ?≪뀡 異붿쿇. 紐⑤뱺 遺꾩꽍?
+?ㅼ젣 YouTube Data API ?몄텧 寃곌낵 湲곕컲.
 
 Reads YOUTUBE_API_KEY + MY_CHANNEL_HANDLE/ID from youtube_account.json.
 Reads LOOKBACK_DAYS / TOP_N / COMMENT_SAMPLES from my_videos_check.json."""
 import os, json, sys, time, datetime, re, statistics, warnings, html as html_lib
 from collections import Counter
-# v2.89.49 — DeprecationWarning(utcnow 등) 노이즈 제거. 사용자 채팅창 출력에 끼면 못생김.
+# v2.89.49 ??DeprecationWarning(utcnow ?? ?몄씠利??쒓굅. ?ъ슜??梨꾪똿李?異쒕젰???쇰㈃ 紐살깮源.
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -33,12 +33,12 @@ def _resolve_channel_id(youtube, handle, channel_id):
         if items:
             return items[0]["snippet"]["channelId"]
     except Exception as e:
-        print(f"⚠️  채널 ID 조회 실패: {e}")
+        print(f"?좑툘  梨꾨꼸 ID 議고쉶 ?ㅽ뙣: {e}")
     return None
 
 def _resolve_telegram(account):
-    """telegram_v3 — Secretary's tools/telegram_setup.json is the canonical
-    UI-managed home (input via Skills ⚙️). Fallback chain:
+    """telegram_v3 ??Secretary's tools/telegram_setup.json is the canonical
+    UI-managed home (input via Skills ?숋툘). Fallback chain:
       1) youtube_account.json (this tool's local override, back-compat)
       2) _agents/secretary/tools/telegram_setup.json (UI-managed, canonical)
       3) _agents/secretary/config.md (legacy markdown, back-compat)
@@ -66,41 +66,40 @@ def _resolve_telegram(account):
             with open(sec_cfg, "r", encoding="utf-8") as f:
                 txt = f.read()
             if not token:
-                m = re.search(r"TELEGRAM_BOT_TOKEN\s*[:：=]\s*([A-Za-z0-9:_\-]+)", txt)
+                m = re.search(r"TELEGRAM_BOT_TOKEN\s*[:竊?]\s*([A-Za-z0-9:_\-]+)", txt)
                 if m: token = m.group(1).strip()
             if not chat:
-                m = re.search(r"TELEGRAM_CHAT_ID\s*[:：=]\s*(-?\d+)", txt)
+                m = re.search(r"TELEGRAM_CHAT_ID\s*[:竊?]\s*(-?\d+)", txt)
                 if m: chat = m.group(1).strip()
         except Exception:
             pass
     return token, chat
 
 def _push_telegram(account, text):
-    """v2.89.49 — 마크다운 모드는 *,[,(,),# 같은 특수문자 많은 보고서에서 자주 400 거부.
-    이전엔 그래도 'sent' print해서 사용자한테 가짜 성공 보고. 이제 plain text 모드로
-    안전하게 보내고 HTTP status 체크해서 진짜 성공/실패 정확히 알려줌."""
+    """v2.89.49 ??留덊겕?ㅼ슫 紐⑤뱶??*,[,(,),# 媛숈? ?뱀닔臾몄옄 留롮? 蹂닿퀬?쒖뿉???먯＜ 400 嫄곕?.
+    ?댁쟾??洹몃옒??'sent' print?댁꽌 ?ъ슜?먰븳??媛吏??깃났 蹂닿퀬. ?댁젣 plain text 紐⑤뱶濡?    ?덉쟾?섍쾶 蹂대궡怨?HTTP status 泥댄겕?댁꽌 吏꾩쭨 ?깃났/?ㅽ뙣 ?뺥솗???뚮젮以?"""
     token, chat = _resolve_telegram(account)
     if not token or not chat:
-        print("⚠️  텔레그램 토큰/chat_id 미설정 — 전송 안 함", file=sys.stderr)
+        print("?좑툘  ?붾젅洹몃옩 ?좏겙/chat_id 誘몄꽕?????꾩넚 ????, file=sys.stderr)
         return
     try:
         import requests
-        # plain text (parse_mode 없음) — 어떤 특수문자든 통과
+        # plain text (parse_mode ?놁쓬) ???대뼡 ?뱀닔臾몄옄???듦낵
         r = requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
             json={"chat_id": chat, "text": text[:4000]},
             timeout=10,
         )
         if r.status_code == 200:
-            print("📨 텔레그램 전송 성공", file=sys.stderr)
+            print("?벂 ?붾젅洹몃옩 ?꾩넚 ?깃났", file=sys.stderr)
         else:
             try:
                 err = r.json().get("description", r.text[:200])
             except Exception:
                 err = r.text[:200]
-            print(f"⚠️  텔레그램 전송 실패 (HTTP {r.status_code}): {err}", file=sys.stderr)
+            print(f"?좑툘  ?붾젅洹몃옩 ?꾩넚 ?ㅽ뙣 (HTTP {r.status_code}): {err}", file=sys.stderr)
     except Exception as e:
-        print(f"⚠️  텔레그램 전송 에러: {e}", file=sys.stderr)
+        print(f"?좑툘  ?붾젅洹몃옩 ?꾩넚 ?먮윭: {e}", file=sys.stderr)
 
 def _fmt_num(n):
     if n >= 1_000_000: return f"{n/1_000_000:.1f}M"
@@ -108,23 +107,23 @@ def _fmt_num(n):
     return f"{n:,}"
 
 def _parse_duration(iso):
-    """ISO 8601 duration (PT5M30S) → seconds"""
+    """ISO 8601 duration (PT5M30S) ??seconds"""
     m = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', iso or '')
     if not m: return 0
     h, mn, s = (int(x) if x else 0 for x in m.groups())
     return h * 3600 + mn * 60 + s
 
 def _fmt_duration(secs):
-    if secs >= 3600: return f"{secs//3600}시간 {(secs%3600)//60}분"
-    if secs >= 60: return f"{secs//60}분 {secs%60}초"
-    return f"{secs}초"
+    if secs >= 3600: return f"{secs//3600}?쒓컙 {(secs%3600)//60}遺?
+    if secs >= 60: return f"{secs//60}遺?{secs%60}珥?
+    return f"{secs}珥?
 
 def _korean_weekday(dt):
-    return ["월","화","수","목","금","토","일"][dt.weekday()]
+    return ["??,"??,"??,"紐?,"湲?,"??,"??][dt.weekday()]
 
 def main():
     if not os.path.exists(ACCOUNT):
-        print("❌ youtube_account.json이 없어요. 직원 에이전트 보기 → YouTube → 도구 ⚙️에서 API 키와 채널 ID를 입력하세요.")
+        print("??youtube_account.json???놁뼱?? 吏곸썝 ?먯씠?꾪듃 蹂닿린 ??YouTube ???꾧뎄 ?숋툘?먯꽌 API ?ㅼ? 梨꾨꼸 ID瑜??낅젰?섏꽭??")
         sys.exit(1)
     acct = _load(ACCOUNT)
     cfg  = _load(CONFIG) if os.path.exists(CONFIG) else {}
@@ -132,10 +131,10 @@ def main():
     handle  = (acct.get("MY_CHANNEL_HANDLE") or "").strip()
     chan_id = (acct.get("MY_CHANNEL_ID") or "").strip()
     if not api_key:
-        print("❌ YOUTUBE_API_KEY 미설정. youtube_account.json에 채워주세요.")
+        print("??YOUTUBE_API_KEY 誘몄꽕?? youtube_account.json??梨꾩썙二쇱꽭??")
         sys.exit(1)
     if not (handle or chan_id):
-        print("❌ MY_CHANNEL_HANDLE 또는 MY_CHANNEL_ID 필요.")
+        print("??MY_CHANNEL_HANDLE ?먮뒗 MY_CHANNEL_ID ?꾩슂.")
         sys.exit(1)
     lookback = int(cfg.get("LOOKBACK_DAYS", 30))
     top_n    = int(cfg.get("TOP_N", 15))
@@ -144,27 +143,27 @@ def main():
     try:
         from googleapiclient.discovery import build
     except ImportError:
-        print("❌ google-api-python-client 미설치. pip install google-api-python-client requests")
+        print("??google-api-python-client 誘몄꽕移? pip install google-api-python-client requests")
         sys.exit(1)
     youtube = build("youtube", "v3", developerKey=api_key)
 
     cid = _resolve_channel_id(youtube, handle, chan_id)
     if not cid:
-        print("❌ 채널 ID를 찾지 못했어요. youtube_account.json의 핸들/ID 확인.")
+        print("??梨꾨꼸 ID瑜?李얠? 紐삵뻽?댁슂. youtube_account.json???몃뱾/ID ?뺤씤.")
         sys.exit(1)
 
-    # === 1. 채널 메타 ===
-    print(f"🔍 채널 정보 가져오는 중...", file=sys.stderr)
+    # === 1. 梨꾨꼸 硫뷀? ===
+    print(f"?뵇 梨꾨꼸 ?뺣낫 媛?몄삤??以?..", file=sys.stderr)
     cr = youtube.channels().list(part="snippet,statistics,contentDetails,brandingSettings", id=cid).execute()
     cit = cr.get("items", [])
     if not cit:
-        print(f"❌ 채널 데이터 없음 (ID: {cid})")
+        print(f"??梨꾨꼸 ?곗씠???놁쓬 (ID: {cid})")
         sys.exit(1)
     ch = cit[0]
     snip = ch.get("snippet", {})
     cstats = ch.get("statistics", {})
-    # v2.89.55 — YouTube API가 가끔 &amp; / &#39; 같은 HTML entity로 인코딩된 제목 반환.
-    # 이걸 그대로 출력하면 채팅창에서 "&#39;" 가 literal로 보임. 미리 디코드.
+    # v2.89.55 ??YouTube API媛 媛??&amp; / &#39; 媛숈? HTML entity濡??몄퐫?⑸맂 ?쒕ぉ 諛섑솚.
+    # ?닿구 洹몃?濡?異쒕젰?섎㈃ 梨꾪똿李쎌뿉??"&#39;" 媛 literal濡?蹂댁엫. 誘몃━ ?붿퐫??
     ch_title = html_lib.unescape(snip.get("title", "") or "")
     custom_url = snip.get("customUrl", "")
     published = (snip.get("publishedAt", "") or "")[:10]
@@ -183,8 +182,8 @@ def main():
     age_years = age_days / 365.25 if age_days > 0 else 0
     avg_views_per_video_alltime = view_count_total // video_count_total if video_count_total else 0
 
-    # === 2. 최근 영상 목록 ===
-    print(f"🔍 최근 {lookback}일 영상 가져오는 중...", file=sys.stderr)
+    # === 2. 理쒓렐 ?곸긽 紐⑸줉 ===
+    print(f"?뵇 理쒓렐 {lookback}???곸긽 媛?몄삤??以?..", file=sys.stderr)
     after = (datetime.datetime.utcnow() - datetime.timedelta(days=lookback)).isoformat("T") + "Z"
     sr = youtube.search().list(part="snippet", channelId=cid, maxResults=top_n,
                                 order="date", publishedAfter=after, type="video").execute()
@@ -197,12 +196,12 @@ def main():
         vids = [(it["id"]["videoId"], it["snippet"]["title"], it["snippet"]["publishedAt"])
                 for it in sr.get("items", [])]
     if not vids:
-        # v2.89.55 — 빈 영상 시 stderr로. stdout이 비어 있어야 TS shortcut이 실패로 정확히 처리.
-        print(f"⚠️  업로드된 영상이 없어요.", file=sys.stderr)
+        # v2.89.55 ??鍮??곸긽 ??stderr濡? stdout??鍮꾩뼱 ?덉뼱??TS shortcut???ㅽ뙣濡??뺥솗??泥섎━.
+        print(f"?좑툘  ?낅줈?쒕맂 ?곸긽???놁뼱??", file=sys.stderr)
         sys.exit(0)
 
-    # === 3. 영상 상세 통계 ===
-    print(f"🔍 영상 {len(vids)}개 상세 통계 + 길이·태그 가져오는 중...", file=sys.stderr)
+    # === 3. ?곸긽 ?곸꽭 ?듦퀎 ===
+    print(f"?뵇 ?곸긽 {len(vids)}媛??곸꽭 ?듦퀎 + 湲몄씠쨌?쒓렇 媛?몄삤??以?..", file=sys.stderr)
     vstats = youtube.videos().list(
         part="statistics,contentDetails,snippet",
         id=",".join(v[0] for v in vids)
@@ -227,7 +226,7 @@ def main():
         except Exception:
             weekday, hour = "-", 0
         rows.append({
-            # v2.89.55 — title HTML entity 디코드 (&#39; → ', &amp; → & 등)
+            # v2.89.55 ??title HTML entity ?붿퐫??(&#39; ??', &amp; ??& ??
             "id": vid, "title": html_lib.unescape(vtitle or ""), "pub": pub[:10],
             "weekday": weekday, "hour": hour,
             "views": views, "likes": likes, "comments": comments,
@@ -237,7 +236,7 @@ def main():
             "is_short": dur_sec <= 60,
         })
 
-    # === 4. 집계 ===
+    # === 4. 吏묎퀎 ===
     views_list = [r["views"] for r in rows]
     median_views = int(statistics.median(views_list)) if views_list else 0
     avg_views = int(statistics.mean(views_list)) if views_list else 0
@@ -254,23 +253,22 @@ def main():
     top_videos = rows_sorted[:3]
     bottom_videos = rows_sorted[-3:][::-1] if len(rows_sorted) >= 4 else []
 
-    # 요일·시간대 패턴
+    # ?붿씪쨌?쒓컙? ?⑦꽩
     weekday_views = {}
     for r in rows:
         weekday_views.setdefault(r["weekday"], []).append(r["views"])
     weekday_avg = {wd: int(statistics.mean(vs)) for wd, vs in weekday_views.items()}
 
-    # 상위 영상 제목 키워드
-    top_title_words = Counter()
-    stop_kr = {'그리고','근데','너무','진짜','정말','내가','지금','이거','저는','제가','우리'}
+    # ?곸쐞 ?곸긽 ?쒕ぉ ?ㅼ썙??    top_title_words = Counter()
+    stop_kr = {'洹몃━怨?,'洹쇰뜲','?덈Т','吏꾩쭨','?뺣쭚','?닿?','吏湲?,'?닿굅','???,'?쒓?','?곕━'}
     stop_en = {'this','that','and','the','for','with','have','will','your','from','about'}
     for r in top_videos:
-        words = re.findall(r'[가-힣]+|[a-zA-Z]+', r["title"])
+        words = re.findall(r'[媛-??+|[a-zA-Z]+', r["title"])
         top_title_words.update(w for w in words if len(w) >= 2 and w.lower() not in stop_en and w not in stop_kr)
     top_keywords = [w for w, _ in top_title_words.most_common(8)]
 
-    # === 5. 인기 댓글 샘플 (상위 3개 영상) ===
-    print(f"💬 상위 영상의 인기 댓글 가져오는 중...", file=sys.stderr)
+    # === 5. ?멸린 ?볤? ?섑뵆 (?곸쐞 3媛??곸긽) ===
+    print(f"?뮠 ?곸쐞 ?곸긽???멸린 ?볤? 媛?몄삤??以?..", file=sys.stderr)
     comments_by_video = {}
     for r in top_videos[:3]:
         try:
@@ -279,198 +277,192 @@ def main():
             ).execute()
             comments_by_video[r["id"]] = [
                 {
-                    # v2.89.55 — author/text도 HTML entity 디코드
-                    "author": html_lib.unescape(c["snippet"]["topLevelComment"]["snippet"].get("authorDisplayName", "") or ""),
+                    # v2.89.55 ??author/text??HTML entity ?붿퐫??                    "author": html_lib.unescape(c["snippet"]["topLevelComment"]["snippet"].get("authorDisplayName", "") or ""),
                     "text": html_lib.unescape(c["snippet"]["topLevelComment"]["snippet"].get("textOriginal", "") or "")[:200],
                     "likes": int(c["snippet"]["topLevelComment"]["snippet"].get("likeCount", 0)),
                 }
                 for c in cr_resp.get("items", [])
             ]
         except Exception:
-            comments_by_video[r["id"]] = []  # 댓글 비활성 영상이면 403
+            comments_by_video[r["id"]] = []  # ?볤? 鍮꾪솢???곸긽?대㈃ 403
 
-    # === 6. 종합 보고서 ===
-    # v2.89.50 — 시각적으로 더 멋진 레이아웃. 블록인용·이모지 평가·시각 분리선 활용.
-    sub_str = "비공개" if subs_hidden else f"{_fmt_num(sub_count)}명"
-    like_rating = "🟢 좋음" if avg_like_rate >= 2.0 else ("🟡 보통" if avg_like_rate >= 1.0 else "🔴 개선")
-    comment_rating = "🟢 좋음" if avg_comment_rate >= 0.5 else ("🟡 보통" if avg_comment_rate >= 0.2 else "🔴 개선")
+    # === 6. 醫낇빀 蹂닿퀬??===
+    # v2.89.50 ???쒓컖?곸쑝濡???硫뗭쭊 ?덉씠?꾩썐. 釉붾줉?몄슜쨌?대え吏 ?됯?쨌?쒓컖 遺꾨━???쒖슜.
+    sub_str = "鍮꾧났媛? if subs_hidden else f"{_fmt_num(sub_count)}紐?
+    like_rating = "?윟 醫뗭쓬" if avg_like_rate >= 2.0 else ("?윞 蹂댄넻" if avg_like_rate >= 1.0 else "?뵶 媛쒖꽑")
+    comment_rating = "?윟 醫뗭쓬" if avg_comment_rate >= 0.5 else ("?윞 蹂댄넻" if avg_comment_rate >= 0.2 else "?뵶 媛쒖꽑")
     L = []
-    L.append(f"# 🎬 {ch_title}")
-    L.append(f"_{time.strftime('%Y-%m-%d %H:%M')} · 최근 {lookback}일 분석 · 영상 {len(rows)}개_")
+    L.append(f"# ?렗 {ch_title}")
+    L.append(f"_{time.strftime('%Y-%m-%d %H:%M')} 쨌 理쒓렐 {lookback}??遺꾩꽍 쨌 ?곸긽 {len(rows)}媛?")
     L.append("")
-    # 채널 메타 — 인용 블록으로 한눈에
-    L.append(f"> **{sub_str}** 구독자 · **{_fmt_num(view_count_total)}** 누적 조회 · **{video_count_total:,}개** 영상" + (f" · **{age_years:.1f}년** 운영" if age_years > 0 else ""))
-    L.append(f"> 핸들 `{custom_url or handle or '-'}`" + (f" · 🌍 {country}" if country else "") + f" · 영상당 평균 **{_fmt_num(avg_views_per_video_alltime)}** 조회")
+    # 梨꾨꼸 硫뷀? ???몄슜 釉붾줉?쇰줈 ?쒕늿??    L.append(f"> **{sub_str}** 援щ룆??쨌 **{_fmt_num(view_count_total)}** ?꾩쟻 議고쉶 쨌 **{video_count_total:,}媛?* ?곸긽" + (f" 쨌 **{age_years:.1f}??* ?댁쁺" if age_years > 0 else ""))
+    L.append(f"> ?몃뱾 `{custom_url or handle or '-'}`" + (f" 쨌 ?뙇 {country}" if country else "") + f" 쨌 ?곸긽???됯퇏 **{_fmt_num(avg_views_per_video_alltime)}** 議고쉶")
     L.append("")
-    L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
     L.append("")
 
-    # 최근 성과 요약 — 카드 스타일
-    L.append(f"## 📊 최근 {lookback}일 성과 한눈에")
+    # 理쒓렐 ?깃낵 ?붿빟 ??移대뱶 ?ㅽ???    L.append(f"## ?뱤 理쒓렐 {lookback}???깃낵 ?쒕늿??)
     L.append("")
-    L.append("| 지표 | 값 | 평가 |")
+    L.append("| 吏??| 媛?| ?됯? |")
     L.append("|---|---|---|")
     pace = (len(rows) * 30 / lookback) if lookback > 0 else 0
-    pace_rating = "🟢 활발" if pace >= 4 else ("🟡 보통" if pace >= 2 else "🔴 저조")
-    L.append(f"| 업로드 | {len(rows)}개 (월 {pace:.1f}개) | {pace_rating} |")
+    pace_rating = "?윟 ?쒕컻" if pace >= 4 else ("?윞 蹂댄넻" if pace >= 2 else "?뵶 ?議?)
+    L.append(f"| ?낅줈??| {len(rows)}媛?(??{pace:.1f}媛? | {pace_rating} |")
     if rows:
-        L.append(f"| 조회수 중간값 | **{_fmt_num(median_views)}** | 최고 {_fmt_num(rows_sorted[0]['views'])} · 최저 {_fmt_num(rows_sorted[-1]['views'])} |")
-    L.append(f"| 좋아요율 | **{avg_like_rate:.2f}%** | {like_rating} (업계 2~5%) |")
-    L.append(f"| 댓글율 | **{avg_comment_rate:.2f}%** | {comment_rating} (업계 0.3~1%) |")
-    L.append(f"| 평균 길이 | {_fmt_duration(avg_duration)} | 제목 평균 {avg_title_len}자 |")
+        L.append(f"| 議고쉶??以묎컙媛?| **{_fmt_num(median_views)}** | 理쒓퀬 {_fmt_num(rows_sorted[0]['views'])} 쨌 理쒖? {_fmt_num(rows_sorted[-1]['views'])} |")
+    L.append(f"| 醫뗭븘?붿쑉 | **{avg_like_rate:.2f}%** | {like_rating} (?낃퀎 2~5%) |")
+    L.append(f"| ?볤???| **{avg_comment_rate:.2f}%** | {comment_rating} (?낃퀎 0.3~1%) |")
+    L.append(f"| ?됯퇏 湲몄씠 | {_fmt_duration(avg_duration)} | ?쒕ぉ ?됯퇏 {avg_title_len}??|")
     if shorts_count:
-        L.append(f"| Shorts | {shorts_count}개 / {len(rows)} | - |")
+        L.append(f"| Shorts | {shorts_count}媛?/ {len(rows)} | - |")
     L.append("")
-    L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
     L.append("")
 
-    # 영상별 상세 표
-    L.append("## 📺 영상별 상세 (조회수 순)")
-    L.append("| # | 조회수 | 좋아요 (율) | 댓글 (율) | 길이 | 발행 | 제목 |")
+    # ?곸긽蹂??곸꽭 ??    L.append("## ?벟 ?곸긽蹂??곸꽭 (議고쉶????")
+    L.append("| # | 議고쉶??| 醫뗭븘??(?? | ?볤? (?? | 湲몄씠 | 諛쒗뻾 | ?쒕ぉ |")
     L.append("|---|---|---|---|---|---|---|")
     for i, r in enumerate(rows_sorted, 1):
-        marker = "🔥" if r["views"] >= median_views * 1.5 else ("👍" if r["views"] >= median_views else "🥶")
+        marker = "?뵦" if r["views"] >= median_views * 1.5 else ("?몟" if r["views"] >= median_views else "?Ⅶ")
         title_short = r['title'].replace('|', '\\|')[:60]
         L.append(f"| {i}{marker} | {_fmt_num(r['views'])} | {_fmt_num(r['likes'])} ({r['like_rate']:.1f}%) | {_fmt_num(r['comments'])} ({r['comment_rate']:.1f}%) | {_fmt_duration(r['duration_sec'])} | {r['pub']}({r['weekday']}) | {title_short} |")
     L.append("")
 
-    # 상위 영상 심층 분석 — 카드 스타일 + 메달 이모지
-    L.append("## 🏆 TOP 3 — 무엇이 잘 됐나")
+    # ?곸쐞 ?곸긽 ?ъ링 遺꾩꽍 ??移대뱶 ?ㅽ???+ 硫붾떖 ?대え吏
+    L.append("## ?룇 TOP 3 ??臾댁뾿?????먮굹")
     L.append("")
-    medals = ["🥇", "🥈", "🥉"]
+    medals = ["?쪍", "?쪎", "?쪏"]
     for idx, r in enumerate(top_videos):
-        medal = medals[idx] if idx < 3 else "👍"
-        L.append(f"### {medal} {_fmt_num(r['views'])}회 · {r['title']}")
+        medal = medals[idx] if idx < 3 else "?몟"
+        L.append(f"### {medal} {_fmt_num(r['views'])}??쨌 {r['title']}")
         L.append("")
-        L.append(f"> 📅 {r['pub']} ({r['weekday']}요일 {r['hour']:02d}시) · ⏱ {_fmt_duration(r['duration_sec'])} · 👍 {r['like_rate']:.2f}% · 💬 {r['comment_rate']:.2f}%")
+        L.append(f"> ?뱟 {r['pub']} ({r['weekday']}?붿씪 {r['hour']:02d}?? 쨌 ??{_fmt_duration(r['duration_sec'])} 쨌 ?몟 {r['like_rate']:.2f}% 쨌 ?뮠 {r['comment_rate']:.2f}%")
         if r['tags']:
             tag_str = ' '.join(f"`{t}`" for t in r['tags'][:5])
-            L.append(f"> 🏷 {tag_str}" + (' …' if len(r['tags']) > 5 else ''))
-        L.append(f"> 🔗 [영상 보기](https://youtu.be/{r['id']}) · 🖼 [썸네일](https://i.ytimg.com/vi/{r['id']}/mqdefault.jpg)")
+            L.append(f"> ?뤇 {tag_str}" + (' ?? if len(r['tags']) > 5 else ''))
+        L.append(f"> ?뵕 [?곸긽 蹂닿린](https://youtu.be/{r['id']}) 쨌 ?뼹 [?몃꽕??(https://i.ytimg.com/vi/{r['id']}/mqdefault.jpg)")
         cs = comments_by_video.get(r["id"], [])
         if cs:
             L.append("")
-            L.append("**💬 인기 댓글:**")
+            L.append("**?뮠 ?멸린 ?볤?:**")
             for c in cs[:3]:
                 txt = c['text'].replace(chr(10), ' ').replace(chr(13), ' ')[:140]
-                L.append(f"> _{c['author']}_ (👍{c['likes']}): {txt}")
+                L.append(f"> _{c['author']}_ (?몟{c['likes']}): {txt}")
         L.append("")
 
-    # 하위 영상 — 시각적으로 부진 강조
+    # ?섏쐞 ?곸긽 ???쒓컖?곸쑝濡?遺吏?媛뺤“
     if bottom_videos:
-        L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
         L.append("")
-        L.append("## 🥶 하위 영상 — 개선 필요")
+        L.append("## ?Ⅶ ?섏쐞 ?곸긽 ??媛쒖꽑 ?꾩슂")
         L.append("")
         for r in bottom_videos:
             gap_pct = int((1 - r['views'] / median_views) * 100) if median_views else 0
-            L.append(f"- **{_fmt_num(r['views'])}회** · 중간값 대비 **-{gap_pct}%** ↓")
+            L.append(f"- **{_fmt_num(r['views'])}??* 쨌 以묎컙媛??鍮?**-{gap_pct}%** ??)
             L.append(f"  - {r['title']}")
-            L.append(f"  - 📅 {r['pub']}({r['weekday']}, {r['hour']:02d}시) · ⏱ {_fmt_duration(r['duration_sec'])} · 🔗 [영상](https://youtu.be/{r['id']})")
+            L.append(f"  - ?뱟 {r['pub']}({r['weekday']}, {r['hour']:02d}?? 쨌 ??{_fmt_duration(r['duration_sec'])} 쨌 ?뵕 [?곸긽](https://youtu.be/{r['id']})")
         L.append("")
 
-    # 패턴
-    L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    # ?⑦꽩
+    L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
     L.append("")
-    L.append("## 🔍 패턴 분석")
+    L.append("## ?뵇 ?⑦꽩 遺꾩꽍")
     L.append("")
     if weekday_avg and len(weekday_avg) >= 2:
         best_day = max(weekday_avg.items(), key=lambda x: x[1])
         worst_day = min(weekday_avg.items(), key=lambda x: x[1])
         ratio = best_day[1] / worst_day[1] if worst_day[1] else 1
-        L.append(f"- 📅 **최고 요일**: {best_day[0]}요일 (평균 {_fmt_num(best_day[1])}회) — 최저 대비 **{ratio:.1f}배**")
-        L.append(f"- 📅 **최저 요일**: {worst_day[0]}요일 (평균 {_fmt_num(worst_day[1])}회)")
+        L.append(f"- ?뱟 **理쒓퀬 ?붿씪**: {best_day[0]}?붿씪 (?됯퇏 {_fmt_num(best_day[1])}?? ??理쒖? ?鍮?**{ratio:.1f}諛?*")
+        L.append(f"- ?뱟 **理쒖? ?붿씪**: {worst_day[0]}?붿씪 (?됯퇏 {_fmt_num(worst_day[1])}??")
     if top_keywords:
-        L.append(f"- 🔑 **상위 영상 키워드**: {' '.join('`'+k+'`' for k in top_keywords)}")
+        L.append(f"- ?뵎 **?곸쐞 ?곸긽 ?ㅼ썙??*: {' '.join('`'+k+'`' for k in top_keywords)}")
     if title_lengths:
-        L.append(f"- 📝 **제목 길이**: 평균 {avg_title_len}자 (최단 {min(title_lengths)}자 · 최장 {max(title_lengths)}자)")
+        L.append(f"- ?뱷 **?쒕ぉ 湲몄씠**: ?됯퇏 {avg_title_len}??(理쒕떒 {min(title_lengths)}??쨌 理쒖옣 {max(title_lengths)}??")
     if avg_duration > 0:
-        L.append(f"- ⏱ **영상 길이**: 평균 {_fmt_duration(avg_duration)}" + (f" · Shorts(60초 이하) {shorts_count}/{len(rows)}개" if shorts_count else ""))
+        L.append(f"- ??**?곸긽 湲몄씠**: ?됯퇏 {_fmt_duration(avg_duration)}" + (f" 쨌 Shorts(60珥??댄븯) {shorts_count}/{len(rows)}媛? if shorts_count else ""))
     L.append("")
 
-    # 액션 추천 — 카드 스타일
+    # ?≪뀡 異붿쿇 ??移대뱶 ?ㅽ???    L.append("")
+    L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
     L.append("")
-    L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    L.append("")
-    L.append("## 🎯 다음 액션 (우선순위)")
+    L.append("## ?렞 ?ㅼ쓬 ?≪뀡 (?곗꽑?쒖쐞)")
     L.append("")
     recs = []
     if bottom_videos:
         worst = bottom_videos[0]
-        recs.append(("🔴", f"**부진 영상 살리기** — `{worst['title'][:40]}` ({_fmt_num(worst['views'])}회). 썸네일 A/B 또는 제목 리네이밍."))
+        recs.append(("?뵶", f"**遺吏??곸긽 ?대━湲?* ??`{worst['title'][:40]}` ({_fmt_num(worst['views'])}??. ?몃꽕??A/B ?먮뒗 ?쒕ぉ 由щ꽕?대컢."))
     if top_videos:
         winner = top_videos[0]
-        recs.append(("🔥", f"**떡상 패턴 복제** — `{winner['title'][:40]}` ({_fmt_num(winner['views'])}회). 같은 후크/포맷으로 후속편."))
+        recs.append(("?뵦", f"**?≪긽 ?⑦꽩 蹂듭젣** ??`{winner['title'][:40]}` ({_fmt_num(winner['views'])}??. 媛숈? ?꾪겕/?щ㎎?쇰줈 ?꾩냽??"))
     if weekday_avg and len(weekday_avg) >= 3:
         best_day = max(weekday_avg.items(), key=lambda x: x[1])[0]
-        recs.append(("📅", f"**발행 요일 최적화** — {best_day}요일 영상이 평균 가장 잘 됨. 다음 업로드 {best_day}요일 추천."))
+        recs.append(("?뱟", f"**諛쒗뻾 ?붿씪 理쒖쟻??* ??{best_day}?붿씪 ?곸긽???됯퇏 媛?????? ?ㅼ쓬 ?낅줈??{best_day}?붿씪 異붿쿇."))
     if avg_like_rate < 2.0 and avg_views > 100:
-        recs.append(("👍", f"**좋아요율 개선** — 현재 {avg_like_rate:.2f}% (업계 2~5%). 영상 끝 콜아웃 강화."))
+        recs.append(("?몟", f"**醫뗭븘?붿쑉 媛쒖꽑** ???꾩옱 {avg_like_rate:.2f}% (?낃퀎 2~5%). ?곸긽 ??肄쒖븘??媛뺥솕."))
     if avg_comment_rate < 0.3 and avg_views > 100:
-        recs.append(("💬", f"**댓글 유도 강화** — 현재 {avg_comment_rate:.2f}% (업계 0.3~1%). 영상 중간 시청자 의견 질문 삽입."))
+        recs.append(("?뮠", f"**?볤? ?좊룄 媛뺥솕** ???꾩옱 {avg_comment_rate:.2f}% (?낃퀎 0.3~1%). ?곸긽 以묎컙 ?쒖껌???섍껄 吏덈Ц ?쎌엯."))
     if top_keywords:
-        recs.append(("🔑", f"**제목 키워드 활용** — 상위 영상의 `{', '.join(top_keywords[:3])}` 키워드를 다음 제목에 통합."))
+        recs.append(("?뵎", f"**?쒕ぉ ?ㅼ썙???쒖슜** ???곸쐞 ?곸긽??`{', '.join(top_keywords[:3])}` ?ㅼ썙?쒕? ?ㅼ쓬 ?쒕ぉ???듯빀."))
     if shorts_count == 0 and len(rows) >= 5:
-        recs.append(("📱", f"**Shorts 시도** — 최근 {lookback}일에 Shorts 0개. 신규 유입 채널로 좋음."))
+        recs.append(("?벑", f"**Shorts ?쒕룄** ??理쒓렐 {lookback}?쇱뿉 Shorts 0媛? ?좉퇋 ?좎엯 梨꾨꼸濡?醫뗭쓬."))
     if pace < 2:
-        recs.append(("⏰", f"**업로드 빈도 점검** — 월 {pace:.1f}개 페이스. 알고리즘 친화적 페이스는 주 1회+."))
+        recs.append(("??, f"**?낅줈??鍮덈룄 ?먭?** ????{pace:.1f}媛??섏씠?? ?뚭퀬由ъ쬁 移쒗솕???섏씠?ㅻ뒗 二?1??."))
     if not recs:
-        recs.append(("ℹ️", "데이터 부족 — 더 많은 영상 업로드 후 재분석 권장"))
+        recs.append(("?뱄툘", "?곗씠??遺議?????留롮? ?곸긽 ?낅줈?????щ텇??沅뚯옣"))
     for i, (icon, rec) in enumerate(recs, 1):
         L.append(f"**{i}. {icon} {rec}**" if i == 1 else f"{i}. {icon} {rec}")
     L.append("")
 
-    # 시청자 반응 키워드 (상위 영상 댓글 기반)
+    # ?쒖껌??諛섏쓳 ?ㅼ썙??(?곸쐞 ?곸긽 ?볤? 湲곕컲)
     all_comments = []
     for cs in comments_by_video.values():
         all_comments.extend(c["text"] for c in cs)
     if all_comments:
-        L.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        L.append("?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺?곣봺")
         L.append("")
-        L.append("## 💬 시청자가 남긴 키워드")
+        L.append("## ?뮠 ?쒖껌?먭? ?④릿 ?ㅼ썙??)
         L.append("")
         all_text = " ".join(all_comments)
-        words = re.findall(r'[가-힣]{2,}|[a-zA-Z]{3,}', all_text)
-        # URL 조각·도메인은 의미 없으니 제외
+        words = re.findall(r'[媛-??{2,}|[a-zA-Z]{3,}', all_text)
+        # URL 議곌컖쨌?꾨찓?몄? ?섎? ?놁쑝???쒖쇅
         url_noise = {'https', 'http', 'youtu', 'www', 'com'}
         words = [w for w in words if w.lower() not in stop_en and w not in stop_kr and w.lower() not in url_noise and not re.match(r'^[a-zA-Z0-9_]{8,}$', w)]
         word_freq = Counter(words).most_common(8)
         if word_freq:
-            kw_line = ' · '.join(f"`{w}`({c})" for w, c in word_freq)
+            kw_line = ' 쨌 '.join(f"`{w}`({c})" for w, c in word_freq)
             L.append(kw_line)
             L.append("")
-            L.append("> 시청자 머릿속에 남은 단어. 다음 영상 제목·썸네일·후크에 활용.")
+            L.append("> ?쒖껌??癒몃┸?띿뿉 ?⑥? ?⑥뼱. ?ㅼ쓬 ?곸긽 ?쒕ぉ쨌?몃꽕?셋룻썑?ъ뿉 ?쒖슜.")
         L.append("")
 
     summary = chr(10).join(L)
-    # v2.89.49 — stdout은 보고서 markdown만. 메타·진단 메시지는 stderr로.
+    # v2.89.49 ??stdout? 蹂닿퀬??markdown留? 硫뷀?쨌吏꾨떒 硫붿떆吏??stderr濡?
     print(summary)
     with open(REPORT, "a", encoding="utf-8") as f:
         f.write(chr(10) + chr(10) + summary + chr(10) + chr(10) + "---" + chr(10))
-    print(f"\n✅ 보고서 저장: {REPORT}", file=sys.stderr)
-    # Telegram (4096자 제한 — plain text라 마크다운 특수문자 그대로 보내도 통과)
+    print(f"\n??蹂닿퀬????? {REPORT}", file=sys.stderr)
+    # Telegram (4096???쒗븳 ??plain text??留덊겕?ㅼ슫 ?뱀닔臾몄옄 洹몃?濡?蹂대궡???듦낵)
     tg_lines = []
-    tg_lines.append(f"📊 {ch_title} — 채널 분석")
-    tg_lines.append(f"({time.strftime('%Y-%m-%d %H:%M')} · 최근 {lookback}일 · 영상 {len(rows)}개)")
+    tg_lines.append(f"?뱤 {ch_title} ??梨꾨꼸 遺꾩꽍")
+    tg_lines.append(f"({time.strftime('%Y-%m-%d %H:%M')} 쨌 理쒓렐 {lookback}??쨌 ?곸긽 {len(rows)}媛?")
     tg_lines.append("")
-    tg_lines.append(f"구독자 {sub_str} · 누적 {_fmt_num(view_count_total)} · 총 {video_count_total}개")
+    tg_lines.append(f"援щ룆??{sub_str} 쨌 ?꾩쟻 {_fmt_num(view_count_total)} 쨌 珥?{video_count_total}媛?)
     if rows:
-        tg_lines.append(f"중간값 {_fmt_num(median_views)}회 · 최고 {_fmt_num(rows_sorted[0]['views'])} · 최저 {_fmt_num(rows_sorted[-1]['views'])}")
-    tg_lines.append(f"좋아요율 {avg_like_rate:.2f}% · 댓글율 {avg_comment_rate:.2f}%")
+        tg_lines.append(f"以묎컙媛?{_fmt_num(median_views)}??쨌 理쒓퀬 {_fmt_num(rows_sorted[0]['views'])} 쨌 理쒖? {_fmt_num(rows_sorted[-1]['views'])}")
+    tg_lines.append(f"醫뗭븘?붿쑉 {avg_like_rate:.2f}% 쨌 ?볤???{avg_comment_rate:.2f}%")
     tg_lines.append("")
     if top_videos:
-        tg_lines.append(f"🏆 최고: {_fmt_num(top_videos[0]['views'])} {top_videos[0]['title'][:40]}")
+        tg_lines.append(f"?룇 理쒓퀬: {_fmt_num(top_videos[0]['views'])} {top_videos[0]['title'][:40]}")
     if bottom_videos:
-        tg_lines.append(f"🥶 부진: {_fmt_num(bottom_videos[0]['views'])} {bottom_videos[0]['title'][:40]}")
+        tg_lines.append(f"?Ⅶ 遺吏? {_fmt_num(bottom_videos[0]['views'])} {bottom_videos[0]['title'][:40]}")
     tg_lines.append("")
     if recs:
-        tg_lines.append("🎯 액션:")
+        tg_lines.append("?렞 ?≪뀡:")
         for i, (icon, rec) in enumerate(recs[:3], 1):
-            # 마크다운 ** 제거하고 plain text로
-            clean = re.sub(r'\*\*|`', '', rec.split(' — ')[0] if ' — ' in rec else rec)
+            # 留덊겕?ㅼ슫 ** ?쒓굅?섍퀬 plain text濡?            clean = re.sub(r'\*\*|`', '', rec.split(' ??')[0] if ' ??' in rec else rec)
             tg_lines.append(f"{i}. {icon} {clean[:80]}")
     tg_lines.append("")
-    tg_lines.append("(전체 분석은 IDE 채팅창 확인)")
+    tg_lines.append("(?꾩껜 遺꾩꽍? IDE 梨꾪똿李??뺤씤)")
     tg_text = chr(10).join(tg_lines)
     _push_telegram(acct, tg_text)
 
