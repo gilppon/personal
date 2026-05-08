@@ -1,0 +1,242 @@
+[
+  {
+    "date": "2026-04-09",
+    "gross_volume": 231.48,
+    "net_volume": 93.2,
+    "currency": "USD",
+    "transactions": 3,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-10",
+    "gross_volume": 241.69,
+    "net_volume": 216.23,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-11",
+    "gross_volume": 59.99,
+    "net_volume": 142.05,
+    "currency": "USD",
+    "transactions": 4,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-12",
+    "gross_volume": 298.6,
+    "net_volume": 206.36,
+    "currency": "USD",
+    "transactions": 2,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-13",
+    "gross_volume": 265.99,
+    "net_volume": 137.33,
+    "currency": "USD",
+    "transactions": 8,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-14",
+    "gross_volume": 90.17,
+    "net_volume": 126.94,
+    "currency": "USD",
+    "transactions": 5,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-15",
+    "gross_volume": 122.6,
+    "net_volume": 61.23,
+    "currency": "USD",
+    "transactions": 1,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-16",
+    "gross_volume": 133.11,
+    "net_volume": 225.98,
+    "currency": "USD",
+    "transactions": 6,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-17",
+    "gross_volume": 123.57,
+    "net_volume": 267.46,
+    "currency": "USD",
+    "transactions": 5,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-18",
+    "gross_volume": 188.94,
+    "net_volume": 65.24,
+    "currency": "USD",
+    "transactions": 1,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-19",
+    "gross_volume": 98.22,
+    "net_volume": 196.84,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-20",
+    "gross_volume": 99.2,
+    "net_volume": 70.9,
+    "currency": "USD",
+    "transactions": 8,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-21",
+    "gross_volume": 60.49,
+    "net_volume": 46.51,
+    "currency": "USD",
+    "transactions": 3,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-22",
+    "gross_volume": 209.03,
+    "net_volume": 266.77,
+    "currency": "USD",
+    "transactions": 6,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-23",
+    "gross_volume": 235.58,
+    "net_volume": 86.4,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-24",
+    "gross_volume": 62.87,
+    "net_volume": 254.49,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-25",
+    "gross_volume": 152.25,
+    "net_volume": 199.54,
+    "currency": "USD",
+    "transactions": 5,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-26",
+    "gross_volume": 213.77,
+    "net_volume": 191.58,
+    "currency": "USD",
+    "transactions": 2,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-27",
+    "gross_volume": 252.53,
+    "net_volume": 177.18,
+    "currency": "USD",
+    "transactions": 2,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-28",
+    "gross_volume": 59.84,
+    "net_volume": 191.81,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-29",
+    "gross_volume": 170.93,
+    "net_volume": 50.36,
+    "currency": "USD",
+    "transactions": 9,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-04-30",
+    "gross_volume": 220.96,
+    "net_volume": 273.8,
+    "currency": "USD",
+    "transactions": 3,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-01",
+    "gross_volume": 105.8,
+    "net_volume": 207.36,
+    "currency": "USD",
+    "transactions": 10,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-02",
+    "gross_volume": 189.08,
+    "net_volume": 154.8,
+    "currency": "USD",
+    "transactions": 7,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-03",
+    "gross_volume": 283.41,
+    "net_volume": 114.76,
+    "currency": "USD",
+    "transactions": 5,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-04",
+    "gross_volume": 283.36,
+    "net_volume": 270.26,
+    "currency": "USD",
+    "transactions": 4,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-05",
+    "gross_volume": 51.47,
+    "net_volume": 93.39,
+    "currency": "USD",
+    "transactions": 2,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-06",
+    "gross_volume": 100.16,
+    "net_volume": 176.79,
+    "currency": "USD",
+    "transactions": 6,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-07",
+    "gross_volume": 162.14,
+    "net_volume": 115.57,
+    "currency": "USD",
+    "transactions": 5,
+    "gateway": "PayPal"
+  },
+  {
+    "date": "2026-05-08",
+    "gross_volume": 127.65,
+    "net_volume": 249.65,
+    "currency": "USD",
+    "transactions": 1,
+    "gateway": "PayPal"
+  }
+]
