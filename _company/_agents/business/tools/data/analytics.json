@@ -1,212 +1,212 @@
 ﻿[
   {
-    "date": "2026-04-13",
-    "visitors": 935,
-    "pageviews": 3059,
-    "bounce_rate": 53.1,
-    "avg_session_duration_sec": 53
-  },
-  {
-    "date": "2026-04-14",
-    "visitors": 692,
-    "pageviews": 1340,
-    "bounce_rate": 41.4,
-    "avg_session_duration_sec": 112
-  },
-  {
-    "date": "2026-04-15",
-    "visitors": 430,
-    "pageviews": 681,
-    "bounce_rate": 59.91,
-    "avg_session_duration_sec": 92
-  },
-  {
-    "date": "2026-04-16",
-    "visitors": 522,
-    "pageviews": 1812,
-    "bounce_rate": 56.42,
-    "avg_session_duration_sec": 76
-  },
-  {
-    "date": "2026-04-17",
-    "visitors": 788,
-    "pageviews": 2463,
-    "bounce_rate": 43.98,
-    "avg_session_duration_sec": 56
-  },
-  {
-    "date": "2026-04-18",
-    "visitors": 715,
-    "pageviews": 1558,
-    "bounce_rate": 42.07,
-    "avg_session_duration_sec": 119
-  },
-  {
-    "date": "2026-04-19",
-    "visitors": 588,
-    "pageviews": 1816,
-    "bounce_rate": 36.28,
-    "avg_session_duration_sec": 64
-  },
-  {
-    "date": "2026-04-20",
-    "visitors": 960,
-    "pageviews": 1341,
-    "bounce_rate": 33.62,
-    "avg_session_duration_sec": 129
-  },
-  {
-    "date": "2026-04-21",
-    "visitors": 847,
-    "pageviews": 2654,
-    "bounce_rate": 66.88,
-    "avg_session_duration_sec": 63
-  },
-  {
-    "date": "2026-04-22",
-    "visitors": 158,
-    "pageviews": 501,
-    "bounce_rate": 58.78,
-    "avg_session_duration_sec": 39
-  },
-  {
-    "date": "2026-04-23",
-    "visitors": 131,
-    "pageviews": 301,
-    "bounce_rate": 31.17,
-    "avg_session_duration_sec": 96
-  },
-  {
-    "date": "2026-04-24",
-    "visitors": 201,
-    "pageviews": 617,
-    "bounce_rate": 51.75,
-    "avg_session_duration_sec": 71
-  },
-  {
-    "date": "2026-04-25",
-    "visitors": 953,
-    "pageviews": 2102,
-    "bounce_rate": 34.87,
-    "avg_session_duration_sec": 61
-  },
-  {
-    "date": "2026-04-26",
-    "visitors": 217,
-    "pageviews": 583,
-    "bounce_rate": 37.44,
-    "avg_session_duration_sec": 112
-  },
-  {
-    "date": "2026-04-27",
-    "visitors": 139,
-    "pageviews": 485,
-    "bounce_rate": 51.65,
-    "avg_session_duration_sec": 156
-  },
-  {
-    "date": "2026-04-28",
-    "visitors": 866,
-    "pageviews": 2906,
-    "bounce_rate": 34.44,
-    "avg_session_duration_sec": 58
-  },
-  {
-    "date": "2026-04-29",
-    "visitors": 608,
-    "pageviews": 887,
-    "bounce_rate": 32.75,
-    "avg_session_duration_sec": 152
-  },
-  {
-    "date": "2026-04-30",
-    "visitors": 499,
-    "pageviews": 1100,
-    "bounce_rate": 68.86,
-    "avg_session_duration_sec": 37
-  },
-  {
-    "date": "2026-05-01",
-    "visitors": 747,
-    "pageviews": 2571,
-    "bounce_rate": 68.05,
-    "avg_session_duration_sec": 163
-  },
-  {
-    "date": "2026-05-02",
-    "visitors": 345,
-    "pageviews": 581,
-    "bounce_rate": 63.2,
-    "avg_session_duration_sec": 124
-  },
-  {
-    "date": "2026-05-03",
-    "visitors": 877,
-    "pageviews": 1891,
-    "bounce_rate": 33.35,
-    "avg_session_duration_sec": 179
-  },
-  {
     "date": "2026-05-04",
-    "visitors": 834,
-    "pageviews": 1140,
-    "bounce_rate": 64.82,
-    "avg_session_duration_sec": 152
+    "visitors": 618,
+    "pageviews": 1653,
+    "bounce_rate": 50.25,
+    "avg_session_duration_sec": 79
   },
   {
     "date": "2026-05-05",
-    "visitors": 927,
-    "pageviews": 1263,
-    "bounce_rate": 53.19,
-    "avg_session_duration_sec": 52
+    "visitors": 395,
+    "pageviews": 1204,
+    "bounce_rate": 36.58,
+    "avg_session_duration_sec": 110
   },
   {
     "date": "2026-05-06",
-    "visitors": 659,
-    "pageviews": 1027,
-    "bounce_rate": 43.03,
-    "avg_session_duration_sec": 77
+    "visitors": 574,
+    "pageviews": 1404,
+    "bounce_rate": 51.97,
+    "avg_session_duration_sec": 32
   },
   {
     "date": "2026-05-07",
-    "visitors": 953,
-    "pageviews": 1148,
-    "bounce_rate": 39.62,
-    "avg_session_duration_sec": 70
+    "visitors": 355,
+    "pageviews": 584,
+    "bounce_rate": 42.62,
+    "avg_session_duration_sec": 92
   },
   {
     "date": "2026-05-08",
-    "visitors": 194,
-    "pageviews": 325,
-    "bounce_rate": 54.24,
-    "avg_session_duration_sec": 84
+    "visitors": 163,
+    "pageviews": 275,
+    "bounce_rate": 45.02,
+    "avg_session_duration_sec": 108
   },
   {
     "date": "2026-05-09",
-    "visitors": 870,
-    "pageviews": 2096,
-    "bounce_rate": 46.93,
-    "avg_session_duration_sec": 151
+    "visitors": 930,
+    "pageviews": 1119,
+    "bounce_rate": 62.73,
+    "avg_session_duration_sec": 149
   },
   {
     "date": "2026-05-10",
-    "visitors": 631,
-    "pageviews": 1111,
-    "bounce_rate": 58.91,
-    "avg_session_duration_sec": 146
+    "visitors": 705,
+    "pageviews": 2029,
+    "bounce_rate": 55.78,
+    "avg_session_duration_sec": 83
   },
   {
     "date": "2026-05-11",
-    "visitors": 418,
-    "pageviews": 1019,
-    "bounce_rate": 65.35,
-    "avg_session_duration_sec": 150
+    "visitors": 195,
+    "pageviews": 527,
+    "bounce_rate": 42.06,
+    "avg_session_duration_sec": 34
   },
   {
     "date": "2026-05-12",
-    "visitors": 554,
-    "pageviews": 1705,
-    "bounce_rate": 52.91,
-    "avg_session_duration_sec": 108
+    "visitors": 588,
+    "pageviews": 2044,
+    "bounce_rate": 50.54,
+    "avg_session_duration_sec": 118
+  },
+  {
+    "date": "2026-05-13",
+    "visitors": 517,
+    "pageviews": 1221,
+    "bounce_rate": 69.52,
+    "avg_session_duration_sec": 168
+  },
+  {
+    "date": "2026-05-14",
+    "visitors": 564,
+    "pageviews": 1209,
+    "bounce_rate": 35.84,
+    "avg_session_duration_sec": 117
+  },
+  {
+    "date": "2026-05-15",
+    "visitors": 204,
+    "pageviews": 285,
+    "bounce_rate": 43.91,
+    "avg_session_duration_sec": 176
+  },
+  {
+    "date": "2026-05-16",
+    "visitors": 259,
+    "pageviews": 386,
+    "bounce_rate": 66.58,
+    "avg_session_duration_sec": 142
+  },
+  {
+    "date": "2026-05-17",
+    "visitors": 681,
+    "pageviews": 2308,
+    "bounce_rate": 64.44,
+    "avg_session_duration_sec": 80
+  },
+  {
+    "date": "2026-05-18",
+    "visitors": 396,
+    "pageviews": 1347,
+    "bounce_rate": 50.24,
+    "avg_session_duration_sec": 178
+  },
+  {
+    "date": "2026-05-19",
+    "visitors": 905,
+    "pageviews": 2948,
+    "bounce_rate": 42.53,
+    "avg_session_duration_sec": 74
+  },
+  {
+    "date": "2026-05-20",
+    "visitors": 174,
+    "pageviews": 532,
+    "bounce_rate": 32.25,
+    "avg_session_duration_sec": 112
+  },
+  {
+    "date": "2026-05-21",
+    "visitors": 409,
+    "pageviews": 1011,
+    "bounce_rate": 47.8,
+    "avg_session_duration_sec": 158
+  },
+  {
+    "date": "2026-05-22",
+    "visitors": 317,
+    "pageviews": 820,
+    "bounce_rate": 68.45,
+    "avg_session_duration_sec": 98
+  },
+  {
+    "date": "2026-05-23",
+    "visitors": 107,
+    "pageviews": 234,
+    "bounce_rate": 63.1,
+    "avg_session_duration_sec": 48
+  },
+  {
+    "date": "2026-05-24",
+    "visitors": 768,
+    "pageviews": 1734,
+    "bounce_rate": 57.48,
+    "avg_session_duration_sec": 136
+  },
+  {
+    "date": "2026-05-25",
+    "visitors": 329,
+    "pageviews": 718,
+    "bounce_rate": 51.08,
+    "avg_session_duration_sec": 31
+  },
+  {
+    "date": "2026-05-26",
+    "visitors": 787,
+    "pageviews": 2556,
+    "bounce_rate": 40.09,
+    "avg_session_duration_sec": 173
+  },
+  {
+    "date": "2026-05-27",
+    "visitors": 322,
+    "pageviews": 446,
+    "bounce_rate": 43.81,
+    "avg_session_duration_sec": 122
+  },
+  {
+    "date": "2026-05-28",
+    "visitors": 295,
+    "pageviews": 409,
+    "bounce_rate": 52.02,
+    "avg_session_duration_sec": 165
+  },
+  {
+    "date": "2026-05-29",
+    "visitors": 557,
+    "pageviews": 1788,
+    "bounce_rate": 54.54,
+    "avg_session_duration_sec": 43
+  },
+  {
+    "date": "2026-05-30",
+    "visitors": 217,
+    "pageviews": 347,
+    "bounce_rate": 31.39,
+    "avg_session_duration_sec": 47
+  },
+  {
+    "date": "2026-05-31",
+    "visitors": 873,
+    "pageviews": 1800,
+    "bounce_rate": 49.82,
+    "avg_session_duration_sec": 123
+  },
+  {
+    "date": "2026-06-01",
+    "visitors": 446,
+    "pageviews": 740,
+    "bounce_rate": 53.19,
+    "avg_session_duration_sec": 114
+  },
+  {
+    "date": "2026-06-02",
+    "visitors": 694,
+    "pageviews": 1359,
+    "bounce_rate": 55.96,
+    "avg_session_duration_sec": 49
   }
 ]
