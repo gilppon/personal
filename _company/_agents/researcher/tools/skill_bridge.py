@@ -1,5 +1,11 @@
-﻿#!/usr/bin/env python
-import os, json
+#!/usr/bin/env python
+import os, sys, json
+
+# Windows cp949 인코딩 에러 방지 하네스 방화벽 주입
+if os.name == 'nt' and os.environ.get("PYTHONUTF8") != "1":
+    os.environ["PYTHONUTF8"] = "1"
+    import subprocess
+    sys.exit(subprocess.call([sys.executable] + sys.argv))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(HERE, "skill_bridge.json")
