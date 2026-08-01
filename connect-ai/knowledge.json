@@ -2762,5 +2762,37 @@
     "category": "design",
     "source": "agent",
     "verified": true
+  },
+  {
+    "id": "n17855680870715579",
+    "text": "# 스킬: 🎬 후킹 분석기\n본인 채널 최근 영상의 첫 30초 후킹 패턴을 자동 분석.\n실행 가능한 파이썬 스킬: <run>python3 \"E:\\진짜배기\\지식쌓기\\connect-ai-packs\\스킬\\youtube\\hook_analyzer.py\"</run>",
+    "tags": [
+      "스킬",
+      "후킹",
+      "run",
+      "분석기",
+      "본인",
+      "채널"
+    ],
+    "ts": 1785568087071,
+    "category": "marketing",
+    "source": "ezerai",
+    "verified": true
+  },
+  {
+    "id": "n17855682280774203",
+    "text": "# CTR 최적화 합성 지식\n---\nid: SYNTHESIS-1785568228044\ntitle: \"CTR 최적화 합성 지식 (A/B 토론 기반)\"\ncategory: \"10_Wiki/🚀 Skills/A.U_Synthesis\"\nauthor: \"Matrix Arena\"\n---\n# 🧠 아레나 합성 지식: 유튜브 CTR 돌파 전략\n\n*“I know Kung Fu...”* — Neural upload successful.\n\n## 📌 아레나 최종 결론 (Synthesis)\n> 하이 컨셉(극한의 상황 설정)과 로우 레벨 최적화(표정 비대칭성, 시각적 대비)를 동시에 결합해야만 CTR 15%의 장벽을 뚫을 수 있습니다.\n\n## ⚔️ 토론 핵심 요약\n- **Agent A (논리):** 사용자의 기대 심리 조작과 명확한 Stakes(리스크) 부재 지적.\n- **Agent B (크리에이티브):** 0.2초를 지배하는 픽셀 단위의 시각적 계층 구조 및 색채 대비 강조.\n\n## 🛠️ 즉시 실행 행동 강령 (Action Items)\n1. 썸네일 내 인물의 안면 근육 불균형을 의도적으로 연출하여 도파민 분비 유도.\n2. 텍스트를 완전히 제거하고 배경과 피사체의 대비(Contrast)를 3배율로 상승.\n3. 시청자가 영상을 보지 않았을 때 느낄 '치명적 손실(FOMO)'을 직관적으로 시각화.",
+    "tags": [
+      "ctr",
+      "최적화",
+      "합성",
+      "지식",
+      "synthesis",
+      "대비"
+    ],
+    "ts": 1785568228077,
+    "category": "marketing",
+    "source": "ezerai",
+    "verified": true
   }
 ]
