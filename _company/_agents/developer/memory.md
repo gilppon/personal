@@ -44,3 +44,4 @@ _Developer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-05-14] Designer가 확정한 Z-Axis/HSL 규칙과 Business에서 정의한 KPI 측정 로직(loss_simulator_view, cta_click_attempt 등)에 맞춰 '손실 시뮬레이터' 및 CTA 컴포넌트의 Next.js 코드를 즉시 구현하고 기능 안정성을 검증하라. → 산출물 sessions/2026-05-14T07-34/developer.md
 - [2026-05-14] Designer가 제시한 시각적 요구사항과 Writer의 카피를 기반으로, 손실 시뮬레이터 및 CTA 컴포넌트의 Next.js 코드를 구현하고 기능 안정성을 즉시 검증하라. → 산출물 sessions/2026-05-14T07-46/developer.md
 - [2026-05-17] 제공된 Phase 1(데이터 생성)과 Phase 2(파인튜닝)의 요구사항을 통합하여, PDF/TXT 파일을 읽고 청킹 후 Q&A 데이터셋을 생성하고, 이를 기반으로 Llama 3 또는 Gemma 2 모델에 대해 Unsloth 및 PEFT를 사용하여 LoRA 파인튜닝을 수행하는 엔드투엔드(End-to-End) Python 프로토타입 스크립트를 작성하세요. 스크립트는 파일 입출력, 텍스트 청킹 로직, 데이터셋 저장, 그리고 학습 실행 과정을 포함해야 합니다. → 산출물 sessions/2026-05-17T09-25/developer.m
+- [2026-07-22] E:\진짜배기\slm-landing-web 폴더의 코드를 전체적으로 분석하여 제품/서비스의 핵심 기능, 기술 스택, 그리고 사용자에게 전달해야 할 메시지(USP)를 상세하게 보고서 형식으로 정리해 주세요. → 산출물 sessions/2026-07-22T12-05/developer.md
