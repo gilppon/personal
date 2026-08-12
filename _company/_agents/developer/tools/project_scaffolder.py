@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import os
 import subprocess
 import argparse

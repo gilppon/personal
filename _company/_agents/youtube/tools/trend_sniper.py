@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Trend Sniper ??pulls top YouTube videos for target keywords, asks a local
 LLM (Ollama/LM Studio) to extract the algorithmic patterns, and writes a
 planning report next to this script.

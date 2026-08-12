@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: web_preview_v1
 """웹 프로젝트 dev server 시작 + URL 추출.

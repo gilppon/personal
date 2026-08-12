@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Comment Harvester ??for every channel in WATCHED_CHANNELS, pulls the most
 recent N videos and their top M comments. Appends the results to the agent's
 memory.md so the YouTube agent can reference real audience reactions on the

@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: telegram_v3
 """Competitor Brief — for every channel in COMPETITOR_CHANNELS, pulls their

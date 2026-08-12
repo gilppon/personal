@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Professional YouTube Channel Analysis ??pro_v4.
 
 梨꾨꼸 硫뷀? 쨌 ?곸긽蹂??곸꽭 (議고쉶?샕룹쥕?꾩슂?㉱룸뙎湲?㉱룰만?는룹슂?? 쨌 ?곸쐞/?섏쐞 ?곸긽???⑦꽩 쨌

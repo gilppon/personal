@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Google Calendar ?먮룞 ?쇱젙 ?깅줉 ??secretary_calendar_write_v1.
 
 ???ㅽ겕由쏀듃??OAuth? ?ㅼ젣 ?대깽???앹꽦??吏곸젒 ?섏? ?딆뒿?덈떎 ??VS Code

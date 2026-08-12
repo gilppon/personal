@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 """Auto Planner — runs trend_sniper.py on a fixed interval for a chosen
 duration (e.g. overnight). Reads its config from auto_planner.json."""

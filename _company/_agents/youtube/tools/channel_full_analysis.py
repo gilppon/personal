@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Channel Full Analysis ??comprehensive overview of your YouTube channel.
 
 Input: just YOUTUBE_API_KEY + MY_CHANNEL_ID/HANDLE from youtube_account.json.

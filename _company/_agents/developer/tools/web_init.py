@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: web_init_v3
 """웹·모바일 프로젝트 자동 초기화 — 5개 템플릿 중 선택.

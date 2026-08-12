@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: pwa_setup_v1
 """웹사이트를 PWA(모바일 앱처럼)로 변환.

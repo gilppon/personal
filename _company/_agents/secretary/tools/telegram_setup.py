@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """Telegram ?곌껐 ??secretary_telegram_v2.
 
 Secretary ?먯씠?꾪듃???붾젅洹몃옩 ?곌껐 ?꾧뎄. ?좏겙쨌chat_id瑜?Skills???숋툘 ?쇱뿉

@@ -1,4 +1,8 @@
-﻿#!/usr/bin/env python
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+#!/usr/bin/env python
 """YouTube Account / Channels ??shared config for every YouTube tool.
 
 This script doesn't fetch anything by itself. It's listed in the agent panel

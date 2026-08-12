@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: paypal_revenue_v3
 """PayPal 매출 자동 분석 — Connect AI 비즈니스 에이전트 전용.

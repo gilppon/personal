@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: lint_test_v1
 """프로젝트 자가 검증 — 타입체크·테스트·린트 자동 실행 + 결과 요약.

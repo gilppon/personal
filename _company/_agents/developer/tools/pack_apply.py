@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python3
 # version: pack_apply_v7
 """두뇌의 템플릿 팩을 사용자 프로젝트에 한 번에 적용.

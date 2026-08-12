@@ -1,3 +1,7 @@
+import sys
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 #!/usr/bin/env python
 # version: music_v5
 """?뚯븙 ?ㅽ뒠?붿삤 ???ㅼ쨷 紐⑤뜽 吏???먰겢由??ㅼ튂.
